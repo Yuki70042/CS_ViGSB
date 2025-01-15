@@ -1,0 +1,4 @@
+IPBDD 127.0.0.1
+BDD vigsb
+USERBDD VIGSB_user
+MDPBDD root

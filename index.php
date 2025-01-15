@@ -8,7 +8,6 @@ use App\Utilitaire\Vue;
 // Charge le gestionnaire de vue
 $Vue = new Vue();
 
-
 // Identification du type de connexion
 if (isset($_SESSION["typeConnexionBack"])) {
     $typeConnexion = $_SESSION["typeConnexionBack"];

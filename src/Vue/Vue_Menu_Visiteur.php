@@ -10,7 +10,7 @@ class Vue_Menu_Visiteur extends Vue_Composant
     }
     function donneTexte(): string
     {
-        return " <p> Menu Visiteur initialisation okayyyyyyy! </p>";
-        return "";
+        $str= "<H1>Bienvenue sur le  Menu du visiteur !</H1> ";
+        return $str;
     }
 }

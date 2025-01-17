@@ -6,6 +6,7 @@ use PDO;
 
 class Modele_Salarie
 {
+
     /**
      * @param $connexionPDO : connexion à la base de données
      * @return mixed : le tableau des étudiants ou null (something went wrong...)
@@ -64,6 +65,7 @@ class Modele_Salarie
         // Fonction permettant de retrouver l'utilisateur en fonction de ses logins
     {
         try {
+
             // Étape 1 : Connexion à la base
             $connexionPDO = Singleton_ConnexionPDO::getInstance();
             // echo "Connexion Singleton réussie<br>";
@@ -84,12 +86,6 @@ class Modele_Salarie
             // Étape 5 : Récupération des données
             $utilisateur = $requetePreparee->fetch(PDO::FETCH_ASSOC);
 
-
-            /* if ($utilisateur) {
-                echo "Utilisateur trouvé<br>";
-            } else {
-                echo "Aucun utilisateur trouvé pour l'email' : $email<br>";
-            } */
 
             return $utilisateur;
 

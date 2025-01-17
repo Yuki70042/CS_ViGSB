@@ -10,7 +10,16 @@ class Vue_Menu_DelegueRegional extends Vue_Composant
     }
     function donneTexte(): string
     {
-        return " <p> Menu Delegue Regional initialisation faite! </p>";
-        return "";
+        return " <nav id='menu'>
+                  <ul id='menu-closed'> 
+                  
+                    <li><a href='?case=Gerer_CompteRendu'>Mes Compte-Rendu</a></li>
+                    <li><a href='?case=Gerer_Praticiens'>Gérer les Praticiens</a></li>   
+                    <li><a href='?case=Gerer_Visiteurs'>Gérer Les Visiteurs</a></li>
+                    <li><a href='?case=Gerer_Visite'>Planifier des Visites</a></li>            
+                    
+                   </ul>
+                </nav> ";
+        return '';
     }
 }

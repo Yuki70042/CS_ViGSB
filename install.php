@@ -80,7 +80,7 @@ try {
                 echo "Quelle est la base de données [BDDCAFE2024]?\n";
                 $BDD = readline();
                 if ($BDD == "") {
-                    $BDD = "BDDCAFE2024";
+                    $BDD = "VIGSB";
                 }
 
                 echo "Quel est l'utilisateur ayant les droits sur cette base de données [" . $BDD . "_user]?\n";

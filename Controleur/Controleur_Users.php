@@ -1,16 +1,13 @@
 <?php
 
 use App\Modele\Modele_Salarie;
-use App\Vue\Vue_Menu_DelegueRegional;
-use App\Vue\Vue_Structure_Entete;
 use App\Vue\Vue_Connexion_Formulaire_Users;
 use App\Vue\Vue_Mail_Confirme;
 use App\Vue\Vue_Mail_ReinitMdp;
 use App\Vue\Vue_Menu_Visiteur;
+use App\Vue\Vue_Menu_DelegueRegional;
 
 // Controleur accueillant tout utilisateur non authentifié
-
-$Vue->setEntete(new Vue_Structure_Entete());
 
 switch ($action){
 
@@ -41,17 +38,18 @@ switch ($action){
 //                            $_SESSION["typeConnexionBack"] = "administrateur";
 //                            $Vue->setMenu(new \App\Vue\Vue_Menu_Administrateur($_SESSION["type_utilisateur"]));
 //                            break;
-                        case 1:
+                        case 'visiteur':
                             $_SESSION["typeConnexionBack"] = "visiteur";
                             $Vue->setMenu(new Vue_Menu_Visiteur($_SESSION["id_salarie"]));
+                            $case = "visiteur";
                             break;
-                        case 2:
-                            $_SESSION["typeConnexionBack"] = "DelegueRegional";
+                        case 'delegue':
+                            $_SESSION["typeConnexionBack"] = "delegue";
                             $Vue->setMenu(new Vue_Menu_DelegueRegional($_SESSION["id_salarie"]));
                             break;
 
-                        case 3:
-                            $_SESSION["typeConnexionBack"] = "ResponsableSecteur";
+                        case 'responsable':
+                            $_SESSION["typeConnexionBack"] = "responsable";
                             $Vue->setMenu(new \App\Vue\Vue_Menu_ResponsableSecteur($_SESSION["id_salarie"]));
                             break;
                     }

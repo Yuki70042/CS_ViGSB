@@ -1,0 +1,200 @@
+/* Style général pour la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F6FA;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Conteneur principal */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #4A4A4A;
+    margin-top: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 800px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.info-gauche {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.info-droite {
+    flex: 1;
+    text-align: right;
+}
+
+/* Encadré du compte-rendu */
+.compte-rendu-box {
+
+}
+
+/* Style du titre du compte-rendu */
+.compte-rendu-titre {
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+/* Style du texte du compte-rendu */
+.compte-rendu-texte {
+    text-align: left;
+    border: 1px solid #888;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+
+/* Informations du médecin */
+.info-gauche strong {
+    color: #4A4A4A;
+}
+
+label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    cursor: not-allowed;
+    border: 2px solid #CCCCCC;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+/* Conteneur du compte-rendu */
+.compte-rendu {
+    flex: 1;
+    background: #FFFFFF;
+    border-left: 3px solid #4A90E2;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 40%;
+}
+
+/* Boutons */
+a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Bouton rédiger */
+.btn-rediger {
+    background-color: #FF5733;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(255, 87, 51, 0.3);
+}
+
+.btn-rediger:hover {
+    background-color: #E04E2E;
+    transform: translateY(-2px);
+}
+
+/* Bouton modifier */
+.btn-modifier {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(76, 175, 80, 0.3);
+}
+
+.btn-modifier:hover {
+    background-color: #449D46;
+    transform: translateY(-2px);
+}
+
+/* Bouton retour */
+button {
+    display: block;
+    margin: 30px auto 0;
+    background-color: #3A81E6;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(58, 129, 230, 0.3);
+}
+
+button:hover {
+    background-color: #326DBF;
+    transform: translateY(-2px);
+}
+
+/* Bouton désactivé */
+a[disabled] {
+    background-color: #dcbfbf;
+    color: #631717;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+a[disabled]:hover {
+    transform: none;
+}
+
+/* Bouton valider */
+.btn-validee {
+    background-color: #28A745;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(40, 167, 69, 0.3);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-validee:hover {
+    transform: none;
+    background-color: #28A745;
+}
+
+.btn-valide {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+    pointer-events: none;
+}

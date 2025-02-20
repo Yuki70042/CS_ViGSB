@@ -14,5 +14,4 @@ class Vue_Mail_Confirme extends Vue_Composant
 
         return $str;
     }
-
 }

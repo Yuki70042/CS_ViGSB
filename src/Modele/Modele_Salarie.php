@@ -7,60 +7,6 @@ use PDO;
 class Modele_Salarie
 {
 
-    /**
-     * @param $connexionPDO : connexion à la base de données
-     * @return mixed : le tableau des étudiants ou null (something went wrong...)
-     *
-     */
-    static function Utilisateur_Select()
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
-        $requetePreparee = $connexionPDO->prepare('
-        select utilisateur.*, categorie_utilisateur.libelle
-        from `utilisateur`  inner join categorie_utilisateur on utilisateur.idCategorie_utilisateur = categorie_utilisateur.id
-        order by login');
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        $tableauReponse = $requetePreparee->fetchAll(PDO::FETCH_ASSOC);
-        return $tableauReponse;
-    }
-
-    /**
-     * @param $connexionPDO : connexion à la base de données
-     * @return mixed : le tableau des étudiants ou null (something went wrong...)
-     */
-    static function Utilisateur_Select_Cafe()
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
-        $requetePreparee = $connexionPDO->prepare('
-        select utilisateur.*, categorie_utilisateur.libelle
-        from `utilisateur`  inner join categorie_utilisateur on utilisateur.idCategorie_utilisateur = categorie_utilisateur.id
-        where utilisateur.idCategorie_utilisateur = 2 or utilisateur.idCategorie_utilisateur = 1
-        order by login');
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        $tableauReponse = $requetePreparee->fetchAll(PDO::FETCH_ASSOC);
-        return $tableauReponse;
-    }
-
-    /**
-     * @param $connexionPDO
-     * @param $idUtilisateur
-     * @return mixed
-     */
-    static function Utilisateur_Select_ParId($idUtilisateur)
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
-        $requetePreparee = $connexionPDO->prepare('select * from `utilisateur` where idUtilisateur = :paramId');
-        $requetePreparee->bindParam('paramId', $idUtilisateur);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        $etudiant = $requetePreparee->fetch(PDO::FETCH_ASSOC);
-        return $etudiant;
-    }
-
-    /**
-     * @param $connexionPDO
-     * @param $idUtilisateur
-     * @return mixed
-     */
     static function Utilisateur_Select_ParLogin($email)
         // Fonction permettant de retrouver l'utilisateur en fonction de ses logins
     {
@@ -68,13 +14,10 @@ class Modele_Salarie
 
             // Étape 1 : Connexion à la base
             $connexionPDO = Singleton_ConnexionPDO::getInstance();
-            // echo "Connexion Singleton réussie<br>";
 
             // Étape 2 : Préparation de la requête
             $requetePreparee = $connexionPDO->prepare(
-                'SELECT * FROM `salarie` WHERE email = :paramLogin'
-            );
-            // echo "Requête préparée avec succès<br>";
+                'SELECT * FROM `salarie` WHERE email = :paramLogin');
 
             // Étape 3 : Liaison des paramètres
             $requetePreparee->bindParam(':paramLogin', $email, PDO::PARAM_STR);
@@ -86,7 +29,6 @@ class Modele_Salarie
             // Étape 5 : Récupération des données
             $utilisateur = $requetePreparee->fetch(PDO::FETCH_ASSOC);
 
-
             return $utilisateur;
 
         } catch (PDOException $e) {
@@ -94,127 +36,68 @@ class Modele_Salarie
         }
     }
 
-    /**
-     * @param $connexionPDO
-     * @param $login
-     * @param $niveauAutorisation
-     * @return mixed
-     */
-    static function Utilisateur_Creer($login, $motDePasse, $codeCategorie)
+
+    public static function ajouterSalarie(string $nom, string $prenom, string $email, string $mdp, int $age, string $adresse, string $type_utilisateur): int
     {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
+        try {
+            $pdo = Singleton_ConnexionPDO::getInstance();
+            $stmt = $pdo->prepare(
+                'INSERT INTO salarie (nom, prenom, email, mot_de_passe, age, adresse, type_utilisateur)
+                 VALUES (:nom, :prenom, :email, :mdp, :age, :adresse, :type_utilisateur)'
+            );
+            $stmt->execute([
+                ':nom' => $nom,
+                ':prenom' => $prenom,
+                ':email' => $email,
+                ':mdp' => $mdp,
+//                ':mdp' => password_hash($mdp, PASSWORD_DEFAULT), // Hash du mot de passe
+                ':age' => $age,
+                ':adresse' => $adresse,
+                ':type_utilisateur' => $type_utilisateur
+            ]);
 
-        $requetePreparee = $connexionPDO->prepare(
-            'INSERT INTO `utilisateur` (`idUtilisateur`, `login`, `idCategorie_utilisateur`, `motDePasse`) 
-         VALUES (NULL, :paramlogin, :paramidCategorie_utilisateur, "");');
+            // Retourne l'id du salarié inséré
+            return $pdo->lastInsertId();
 
-        $requetePreparee->bindParam('paramlogin', $login);
-        $requetePreparee->bindParam('paramidCategorie_utilisateur', $codeCategorie);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        if($reponse != false) {
-            $idUtilisateur = $connexionPDO->lastInsertId();
-            $desactiver = 0;
-            self::Utilisateur_Modifier_Desactivation($idUtilisateur, $desactiver);
-            self::Utilisateur_Modifier_motDePasse($idUtilisateur, $motDePasse);
-            return $idUtilisateur;
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de l'ajout du salarié : " . $e->getMessage());
         }
-        return false;
     }
 
-    /**
-     * @param $connexionPDO
-     * @param $idUtilisateur
-     * @return mixed
-     */
-    static function Utilisateur_Supprimer($idUtilisateur)
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
+    public static function getSalarieById(int $idSalarie): array {
 
-        $requetePreparee = $connexionPDO->prepare('delete utilisateur.* from `utilisateur` where idUtilisateur = :paramId');
-        $requetePreparee->bindParam('paramId', $idUtilisateur);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        return $reponse;
+        $pdo = Singleton_ConnexionPDO::getInstance();
+        $stmt = $pdo->prepare('SELECT * FROM salarie WHERE id_salarie = :id');
+        $stmt->execute([':id' => $idSalarie]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * @param $connexionPDO
-     * @param $idUtilisateur
-     * @param $login
-     * @param $niveauAutorisation
-     * @return mixed
-     */
-    static function Utilisateur_Modifier($idUtilisateur, $login, $idCodeCategorie)
-
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
-
-        $requetePreparee = $connexionPDO->prepare(
-'UPDATE `utilisateur`
-SET `login`= :paramlogin, `idCategorie_utilisateur`= :paramidCategorie_utilisateur
-WHERE idUtilisateur = :paramidUtilisateur');
-        $requetePreparee->bindParam('paramlogin', $login);
-        $requetePreparee->bindParam('paramidCategorie_utilisateur', $idCodeCategorie);
-        $requetePreparee->bindParam('paramidUtilisateur', $idUtilisateur);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-
-
-        return $reponse;
+    public static function modifierSalarie(int $idSalarie, string $nom, string $prenom, string $email, int $age, string $adresse): void {
+        $pdo = Singleton_ConnexionPDO::getInstance();
+        $stmt = $pdo->prepare(
+            'UPDATE salarie SET nom = :nom, prenom = :prenom, email = :email, age = :age, adresse = :adresse WHERE id_salarie = :id'
+        );
+        $stmt->execute([
+            ':nom' => $nom,
+            ':prenom' => $prenom,
+            ':email' => $email,
+            ':age' => $age,
+            'adresse' => $adresse,
+            ':id' => $idSalarie
+        ]);
     }
 
-// fonction pour activer ou désactiver un utilisateur
-    static function Utilisateur_Modifier_Desactivation($idUtilisateur, $desactiver)
+    public static function supprimerSalarie(int $idSalarie): void {
 
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
+        $pdo = Singleton_ConnexionPDO::getInstance();
+        $stmt = $pdo->prepare('DELETE FROM salarie WHERE id_salarie = :id');
+        $stmt->execute([':id' => $idSalarie]);
 
-        $requetePreparee = $connexionPDO->prepare(
-            'UPDATE `utilisateur` 
-SET `desactiver`= :paramdesactiver
-WHERE idUtilisateur = :paramidUtilisateur');
-        $requetePreparee->bindParam('paramdesactiver', $desactiver);
-        $requetePreparee->bindParam('paramidUtilisateur', $idUtilisateur);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        return $reponse;
     }
 
 
-    /**
-     * @param $connexionPDO
-     * @param $idUtilisateur
-     * @param $motDePasseClair
-     * @return mixed
-     */
-    static function Utilisateur_Modifier_motDePasse($idUtilisateur, $motDePasse)
 
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
-         $requetePreparee = $connexionPDO->prepare(
-            'UPDATE `utilisateur` 
-SET motDePasse = :parammotDePasse
-WHERE idUtilisateur = :paramidUtilisateur');
-        $requetePreparee->bindParam('parammotDePasse', $motDePasse);
-        $requetePreparee->bindParam('paramidUtilisateur', $idUtilisateur);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        return $reponse;
-    }
 
-    /**
-     * @param $connexionPDO
-     * @param $idUtilisateur
-     * @param $motDePasseClair
-     * @return mixed
-     */
-    static function Utilisateur_Modifier_ALL($motDePasse)
-
-    {
-        $connexionPDO = Singleton_ConnexionPDO::getInstance();
-
-        $requetePreparee = $connexionPDO->prepare(
-            'UPDATE `utilisateur` 
-SET motDePasse = :parammotDePasse ');
-        $requetePreparee->bindParam('parammotDePasse', $motDePasse);
-        $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        return $reponse;
-    }
 
 }
+

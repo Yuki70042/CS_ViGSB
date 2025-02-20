@@ -61,7 +61,6 @@ class Vue_Visite_Formulaire extends Vue_Composant {
         if ($this->medicaments) {
             foreach ($this->medicaments as $medicament) {
                 $html .= '<option value="' . $medicament['id_medicament'] . '">' . $medicament['designation'] . '</option>';
-                $html .= '<option value="' . $medicament['id_medicament'] . '">' . $medicament['designation'] . '</option>';
             }
         }
 

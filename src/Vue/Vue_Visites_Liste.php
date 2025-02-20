@@ -21,7 +21,12 @@ class Vue_Visites_Liste extends Vue_Composant
             <title>Mes Visites</title>
             <link rel='stylesheet' href='../../public/Visites_Liste.css'> <!-- Lien vers le CSS -->
         </head>
-    <h1>Mes Visites</h1><ul>";
+    <ul>";
+        // Changer le titre en fonction de l'action
+        $titre = ($_GET['action'] === 'historique') ? "Historique" : "Mes Visites";
+        $html .= "<h1>$titre</h1><ul>";
+
+
 
         foreach ($this->visites as $visite) {
             // Vérifie si un compte-rendu existe

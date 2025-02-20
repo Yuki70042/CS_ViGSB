@@ -215,24 +215,24 @@ class Modele_Visites
 
 // -----------    Pour le Délégué
 
-    public static function getVisitesParRegion(int $idRegion): array
+    public static function getVisitesParRegion(array $idRegions): array
     {
         try {
             // Création d'une instance PDO
             $pdo = Singleton_ConnexionPDO::getInstance();
 
-            // Préparer la requête SQL pour récupérer les visites liées à la même région que celle du délégué connecté
+            // Préparer la requête SQL pour récupérer les visites liées aux régions
             $stmt = $pdo->prepare("
-            SELECT v.*, p.nom_pds AS nom_pro, p.prenom_pds AS prenom_pro, p.adresse_pds AS adresse_pro, s.nom , s.prenom
-            FROM visiter v
-            INNER JOIN professionnels_de_sante p ON v.id_pds = p.id_pds
-            INNER JOIN visiteur vi ON v.id_salarie = vi.id_salarie
-            INNER JOIN salarie s ON v.id_salarie = s.id_salarie
-            WHERE vi.id_region = :idRegion
-        ");
+                SELECT v.*, p.nom_pds AS nom_pro, p.prenom_pds AS prenom_pro, p.adresse_pds AS adresse_pro, s.nom , s.prenom
+                FROM visiter v
+                INNER JOIN professionnels_de_sante p ON v.id_pds = p.id_pds
+                INNER JOIN visiteur vi ON v.id_salarie = vi.id_salarie
+                INNER JOIN salarie s ON v.id_salarie = s.id_salarie
+                WHERE vi.id_region IN (" . implode(',', array_fill(0, count($idRegions), '?')) . ")
+                ");
 
-            // Exécuter la requête avec l'ID de la région du délégué
-            $stmt->execute([':idRegion' => $idRegion]);
+            // Exécuter la requête avec les IDs des régions
+            $stmt->execute($idRegions);
 
             // Retourner les résultats sous forme de tableau
             return $stmt->fetchAll();
@@ -240,6 +240,43 @@ class Modele_Visites
             throw new \Exception("Erreur lors de la récupération des visites par région : " . $e->getMessage());
         }
     }
+
+    // -----------    Pour le Responsable
+    public static function getRegionsDuSecteur(int $idSecteur): array
+    {
+        try {
+            // Création d'une instance PDO
+            $pdo = Singleton_ConnexionPDO::getInstance();
+
+            // Préparer la requête SQL pour récupérer les régions liées au secteur
+            $stmt = $pdo->prepare("
+                SELECT r.id_region
+                FROM region r
+                INNER JOIN secteur s ON r.id_secteur = s.id_secteur
+                WHERE r.id_secteur = :idSecteur
+                ");
+
+            // Exécuter la requête avec l'ID du secteur
+            $stmt->execute([':idSecteur' => $idSecteur]);
+
+            // Récupérer uniquement les IDs des régions dans un tableau
+            $regions = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            if (empty($regions)) {
+                throw new \Exception("Aucune région trouvée pour ce secteur.");
+            }
+
+            return $regions;
+
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération des régions du secteur : " . $e->getMessage());
+        }
+    }
+
+
+
+
+
     public static function validerCompteRendu(array $cleVisite): void
     {
         try {

@@ -16,32 +16,33 @@ class Modele_Delegues
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getRegionByDelegue(int $idSalarie): int
+    public static function getRegionByDelegue(int $idSalarie): array
     {
         try {
             // Création d'une instance PDO
             $pdo = Singleton_ConnexionPDO::getInstance();
 
-            // Préparer la requête pour obtenir la région du délégué
+            // Préparer la requête pour obtenir toutes les régions du délégué
             $stmt = $pdo->prepare("
-            SELECT id_region 
-            FROM delegue_regional
-            WHERE id_salarie = :idSalarie
-        ");
+                    SELECT id_region 
+                    FROM delegue_regional
+                    WHERE id_salarie = :idSalarie
+                    ");
 
             // Exécuter la requête
             $stmt->execute([':idSalarie' => $idSalarie]);
 
-            // Récupérer et retourner l'ID de la région du délégué
-            $idRegion = $stmt->fetchColumn();
+            // Récupérer toutes les régions sous forme de tableau
+            $regions = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-            if (!$idRegion) {
+            if (empty($regions)) {
                 throw new \Exception("Aucune région trouvée pour ce délégué.");
             }
-            return $idRegion;
+
+            return $regions;
 
         } catch (\PDOException $e) {
-            throw new \Exception("Erreur lors de la récupération de la région du délégué : " . $e->getMessage());
+            throw new \Exception("Erreur lors de la récupération des régions du délégué : " . $e->getMessage());
         }
     }
 
@@ -69,7 +70,7 @@ class Modele_Delegues
     public static function ajouterDelegues(int $id_secteur, int $idSalarie, int $idRegion): void {
         $pdo = Singleton_ConnexionPDO::getInstance();
         $stmt = $pdo->prepare(
-            // A ajouter ici le secteur de idResponsable actuellemetn connecté
+            // A ajouter ici le secteur de idResponsable actuellement connecté
             "INSERT INTO delegue_regional (id_salarie, id_region, id_secteur) 
         VALUES (:idSalarie, :idRegion, :id_secteur)"
         );

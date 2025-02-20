@@ -20,25 +20,27 @@ switch ($action) {
     case "voirVisitesRegion":
 
         // Si la personne est délégué
-        if ($_SESSION["typeConnexionBack"] === "delegue" || $_SESSION["typeConnexionBack"] === "responsable") {
-            // Récupérer la région du délégué connecté
-            $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
+        if ($_SESSION["typeConnexionBack"] === "delegue") {
+            // Récupérer les régions du délégué connecté
+            $idRegions = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
 
-            // Récupérer les visites de la région du délégué
-            $visites = Modele_Visites::getVisitesParRegion($idRegion);
+            // Récupérer les visites pour toutes les régions du délégué
+            $visites = Modele_Visites::getVisitesParRegion($idRegions);
             $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visites));
         }
 
         // Si la personne est responsable
-//        if ($_SESSION["typeConnexionBack"] === "responsable") {
-//            // Récupérer la région du délégué connecté
-//            $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
-//
-//            // Récupérer les visites de la région du délégué
-//            $visites = Modele_Visites::getVisitesParRegion($idRegion);
-//            $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visites));
-//        }
+        if ($_SESSION["typeConnexionBack"] === "responsable") {
+            // Récupérer le secteur du responsable connecté
+            $idSecteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
+
+            // Récupérer les visites des régions supervisé par le responsable
+            $regions = Modele_Visites::getRegionsDuSecteur($idSecteur);
+            $visites = Modele_Visites::getVisitesParRegion($regions);
+            $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visites));
+        }
         break;
+
 
 
         // Permet aux visiteurs de voir les visites qui lui sont actuellement en cours
@@ -51,6 +53,8 @@ switch ($action) {
         $visites = Modele_Visites::getVisitesHistoriqueParSalarie($_SESSION["id_salarie"]);
         $Vue->addToCorps(new Vue_Visites_Liste($visites));
         break;
+
+
 
 
     case "editer":
@@ -157,7 +161,6 @@ switch ($action) {
             echo "Paramètres manquants : vérifiez que date_du_jour, id_medicament et id_pds sont bien transmis.";
         }
         break;
-
 
 
 

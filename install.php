@@ -77,7 +77,7 @@ try {
 
             if ($createDatabase == "n" || $createDatabase == "N") {
                 echo "**** Base de données existante ****\n";
-                echo "Quelle est la base de données [BDDCAFE2024]?\n";
+                echo "Quelle est la base de données [VIGSB]?\n";
                 $BDD = readline();
                 if ($BDD == "") {
                     $BDD = "VIGSB";
@@ -97,10 +97,10 @@ try {
             } else {
                 echo "**** Base de données sera donc crée ****\n";
                 //La base de données est à créer
-                echo "Quelle sera la base de données [BDDCAFE2024]?\n";
+                echo "Quelle sera la base de données [VIGSB]?\n";
                 $BDD = readline();
                 if ($BDD == "") {
-                    $BDD = "ViGSB";
+                    $BDD = "VIGSB";
                 }
 
                 echo "Quel est l'utilisateur ayant les droits de créer cette base de données [root] ?\n";

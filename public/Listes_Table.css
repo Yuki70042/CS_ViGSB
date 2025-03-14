@@ -29,6 +29,7 @@ form div {
     margin-bottom: 15px;
 }
 
+/* Style pour les labels */
 form label {
     font-weight: bold;
     margin-bottom: 5px;
@@ -36,7 +37,11 @@ form label {
     color: #555;
 }
 
-form input[type="text"] {
+/* Style des champs de texte et autres types de champs (âge, email, mot de passe) */
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="password"] {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -47,12 +52,23 @@ form input[type="text"] {
     transition: all 0.3s ease;
 }
 
-form input[type="text"]:focus {
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
     outline: none;
     border-color: #4A90E2;
     background-color: #fff;
 }
 
+/* Style de l'astérisque pour les champs obligatoires */
+form label span {
+    color: #F2C94C; /* Astérisque en couleur jaune */
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+/* Bouton Enregistrer */
 form button {
     width: 100%;
     padding: 12px;
@@ -114,7 +130,3 @@ form button[type="submit"]:hover {
     width: 80%;
 }
 
-/* Style pour les champs obligatoires */
-input[required] {
-    border-left: 5px solid #F2C94C;
-}

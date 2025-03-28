@@ -41,7 +41,7 @@ Pour importer la base de données, suivez ces étapes :
   
 ### 4. Lancer l'application
 
-- Une fois la base de données importée, ouvrez votre navigateur web et accédez à l'application.
+- Une fois la base de données importée, ouvrez l'application avec votre navigateur web et accédez à l'application.
 
 - Le menu de connexion devrait apparaître.
 

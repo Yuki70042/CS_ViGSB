@@ -57,4 +57,4 @@ Vous pouvez maintenant vous connecter en utilisant l'un des identifiants suivant
 
 ---
 
-Si vous avez des questions ou des problèmes lors de l'installation, n'hésitez pas  à me contacter via Linkedin où mon Portfolio.
+Si vous avez des questions ou des problèmes lors de l'installation, n'hésitez pas  à me contacter via Linkedin ou la section "contact" de mon Portfolio.

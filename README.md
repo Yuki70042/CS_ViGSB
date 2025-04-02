@@ -41,9 +41,8 @@ Pour importer la base de données, suivez ces étapes :
   
 ### 4. Lancer l'application
 
-- Une fois la base de données importée, ouvrez l'application avec votre navigateur web et accédez à l'application.
-
-- Le menu de connexion devrait apparaître.
+- Depuis le fichier "index.php", exécutez le fichier sur un navigateur web
+- Vous accéderez à l'application et le menu de connexion devrait apparaître.
 
 
 ### 5. Connexion à l'application
@@ -58,4 +57,4 @@ Vous pouvez maintenant vous connecter en utilisant l'un des identifiants suivant
 
 ---
 
-Si vous avez des questions ou des problèmes lors de l'installation, n'hésitez pas à consulter la documentation ou à me contacter via GitHub.
+Si vous avez des questions ou des problèmes lors de l'installation, n'hésitez pas  à me contacter via Linkedin où mon Portfolio.

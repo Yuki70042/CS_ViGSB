@@ -16,16 +16,15 @@ $action = $_REQUEST["action"] ;
 switch ($action) {
 
     // Section Visiteur
-
     case "voirVisitesRegion":
 
         // Si la personne est délégué
         if ($_SESSION["typeConnexionBack"] === "delegue") {
             // Récupérer les régions du délégué connecté
-            $idRegions = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
+            $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
 
             // Récupérer les visites pour toutes les régions du délégué
-            $visites = Modele_Visites::getVisitesParRegion($idRegions);
+            $visites = Modele_Visites::getVisitesParRegion($idRegion);
             $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visites));
         }
 
@@ -92,8 +91,9 @@ switch ($action) {
 
         // Renvoie vers le formulaire de création de visite
     case "ajouterVisite":
+        $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
         $visiteurs = \App\Modele\Modele_Visiteurs::getVisiteursSousSupervision($_SESSION["id_salarie"]);
-        $praticiens = Modele_Praticiens::getTousPraticiens();
+        $praticiens = Modele_Praticiens::getPraticienDeLaRegion($idRegion);
         $medicaments = \App\Modele\Modele_Medicaments::getTousMedicaments();
         $Vue->addToCorps(new \App\Vue\Vue_Visite_Formulaire($visiteurs, $praticiens, $medicaments));
         break;

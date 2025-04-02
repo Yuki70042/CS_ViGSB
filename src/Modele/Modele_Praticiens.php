@@ -32,20 +32,42 @@ class Modele_Praticiens
 
     public static function getPraticienById($id_pds): array{
         $pdo = Singleton_ConnexionPDO::getInstance();
-        $stmt = $pdo->prepare('SELECT * FROM professionnels_de_sante WHERE id_pds = :id');
+        $stmt = $pdo->prepare('
+        SELECT * FROM professionnels_de_sante 
+        WHERE id_pds = :id');
+
         $stmt->execute([':id' => $id_pds]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function getPraticienDeLaRegion(int $id_region): array {
+        // Fonction retournant uniquement les praticiens de la même région que le délégué
+        try {
+            $pdo = Singleton_ConnexionPDO::getInstance();
+            $stmt = $pdo->prepare('
+            SELECT p.* 
+            FROM professionnels_de_sante p 
+            INNER JOIN region r ON r.id_region = p.id_region
+            INNER JOIN delegue_regional d ON d.id_region = r.id_region
+            WHERE r.id_region = :id_region
+            ');
+            $stmt->execute(['id_region' => $id_region]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération des praticiens : " . $e->getMessage());
+        }
+    }
+
     public static function modifierPraticien(
-            int $idPds,
-            string $nom,
-            string $prenom,
-            int $age,
-            string $metier,
-            string $adresse,
-            string $cp,
-            string $ville
+        int $idPds,
+        string $nom,
+        string $prenom,
+        int $age,
+        string $metier,
+        string $adresse,
+        string $cp,
+        string $ville
     ): void {
 
         $pdo = Singleton_ConnexionPDO::getInstance();
@@ -74,13 +96,13 @@ class Modele_Praticiens
     }
 
 
-    public static function ajouterPraticien(string $nom_pds, string $prenom_pds, int $age_pds, string $metier, string $adresse_pds, string $CP_pds, string $ville_pds): int
+    public static function ajouterPraticien(string $nom_pds, string $prenom_pds, int $age_pds, string $metier, string $adresse_pds, string $CP_pds, string $ville_pds, int $id_region): int
     {
         try {
             $pdo = Singleton_ConnexionPDO::getInstance();
             $stmt = $pdo->prepare(
-                'INSERT INTO professionnels_de_sante (nom_pds, prenom_pds, age_pds, metier, adresse_pds, CP_pds, ville_pds)
-                 VALUES (:nom_pds, :prenom_pds, :age_pds, :metier, :adresse_pds, :CP_pds, :ville_pds)'
+                'INSERT INTO professionnels_de_sante (nom_pds, prenom_pds, age_pds, metier, adresse_pds, CP_pds, ville_pds, id_region)
+                 VALUES (:nom_pds, :prenom_pds, :age_pds, :metier, :adresse_pds, :CP_pds, :ville_pds, :id_region)'
             );
             $stmt->execute([
                 ':nom_pds' => $nom_pds,
@@ -90,7 +112,8 @@ class Modele_Praticiens
 //                ':mdp' => password_hash($mdp, PASSWORD_DEFAULT), // Hash du mot de passe
                 ':adresse_pds' => $adresse_pds,
                 ':CP_pds' => $CP_pds,
-                ':ville_pds' => $ville_pds
+                ':ville_pds' => $ville_pds,
+                ':id_region' => $id_region
             ]);
 
             // Retourne l'id du praticiens inséré

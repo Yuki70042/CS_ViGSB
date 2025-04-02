@@ -5,9 +5,10 @@ use App\Utilitaire\Singleton_ConnexionPDO;
 use PDO;
 
 class Modele_Delegues
+// Classe gérant les interactions avec la table : "delegue_regional" de la base vigsb
 {
-
     public static function getDelegues(): array {
+        // Fonction récupérant l'ensemble des informations d'un délégués
         $pdo = Singleton_ConnexionPDO::getInstance();
         $stmt = $pdo->query('SELECT d.id_salarie, s.nom, s.prenom, s.email, s.age, s.adresse
              FROM salarie s
@@ -16,38 +17,33 @@ class Modele_Delegues
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getRegionByDelegue(int $idSalarie): array
+
+    public static function getRegionByDelegue(int $idSalarie): int
     {
         try {
             // Création d'une instance PDO
             $pdo = Singleton_ConnexionPDO::getInstance();
-
-            // Préparer la requête pour obtenir toutes les régions du délégué
             $stmt = $pdo->prepare("
-                    SELECT id_region 
-                    FROM delegue_regional
-                    WHERE id_salarie = :idSalarie
-                    ");
-
-            // Exécuter la requête
+                SELECT id_region 
+                FROM delegue_regional
+                WHERE id_salarie = :idSalarie
+                ");
             $stmt->execute([':idSalarie' => $idSalarie]);
+            $idRegion = $stmt->fetchColumn();
 
-            // Récupérer toutes les régions sous forme de tableau
-            $regions = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-            if (empty($regions)) {
+            if ($idRegion === false) {
                 throw new \Exception("Aucune région trouvée pour ce délégué.");
             }
-
-            return $regions;
+            return (int) $idRegion;
 
         } catch (\PDOException $e) {
-            throw new \Exception("Erreur lors de la récupération des régions du délégué : " . $e->getMessage());
+            throw new \Exception("Erreur lors de la récupération de la région du délégué : " . $e->getMessage());
         }
     }
 
     public static function getDeleguesSousSupervision(int $idResponsable): array
-        // idResponsable correspond à l'id du salarié connexté en tant que Responsable
+        // Fonction récupérant l'ensemble des délégues sous la responsabilité du responsable
+        // idResponsable correspond à l'id du salarié actuellement connecté en tant que Responsable
     {
         try {
             $pdo = Singleton_ConnexionPDO::getInstance();
@@ -67,17 +63,17 @@ class Modele_Delegues
         }
     }
 
-    public static function ajouterDelegues(int $id_secteur, int $idSalarie, int $idRegion): void {
+    public static function ajouterDelegues(int $idSalarie, int $idRegion): void {
+        // Fonction permettant de créer un nouveau délégué dans la base
         $pdo = Singleton_ConnexionPDO::getInstance();
         $stmt = $pdo->prepare(
-            // A ajouter ici le secteur de idResponsable actuellement connecté
-            "INSERT INTO delegue_regional (id_salarie, id_region, id_secteur) 
-        VALUES (:idSalarie, :idRegion, :id_secteur)"
+        // A ajouter ici le secteur de idResponsable actuellement connecté
+            "INSERT INTO delegue_regional (id_salarie, id_region) 
+        VALUES (:idSalarie, :idRegion)"
         );
         $stmt->execute([
             ':idSalarie' => $idSalarie,
             ':idRegion' => $idRegion,
-            ':id_secteur' => $id_secteur
         ]);
     }
 }

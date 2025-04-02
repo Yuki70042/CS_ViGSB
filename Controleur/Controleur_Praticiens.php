@@ -8,7 +8,8 @@ switch ($action){
 
     case "voirListe":
         // Récupérer la liste des praticiens
-        $praticiens = Modele_Praticiens::getTousPraticiens();
+        $region = \App\Modele\Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
+        $praticiens = Modele_Praticiens::getPraticienDeLaRegion($region);
         $Vue->addToCorps(new Vue_Praticiens_Liste($praticiens));
         break;
 
@@ -18,8 +19,9 @@ switch ($action){
         break;
 
     case "traiterAjout":
+        $region = \App\Modele\Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
         // Ajouter un nouveau praticien
-        if (isset($_POST['nom_pds'], $_POST['prenom_pds'], $_POST['age_pds'], $_POST['metier'], $_POST['adresse_pds'], $_POST['CP_pds'], $_POST['ville_pds'])) {
+        if (isset($_POST['nom_pds'], $_POST['prenom_pds'], $_POST['age_pds'], $_POST['metier'], $_POST['adresse_pds'], $_POST['CP_pds'], $_POST['ville_pds'], $region)) {
             Modele_Praticiens::ajouterPraticien(
                 $_POST['nom_pds'],
                 $_POST['prenom_pds'],
@@ -27,7 +29,8 @@ switch ($action){
                 $_POST['metier'],
                 $_POST['adresse_pds'],
                 $_POST['CP_pds'],
-                $_POST['ville_pds']
+                $_POST['ville_pds'],
+                $region
             );
 
             // Message de confirmation

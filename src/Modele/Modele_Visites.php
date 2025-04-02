@@ -28,11 +28,11 @@ class Modele_Visites
              WHERE v.id_salarie = :idSalarie 
              AND v.validation = 0  -- Ne récupérer que les visites non validées
              ORDER BY v.date_du_jour DESC'
-        );
-        $stmt->bindParam(':idSalarie', $idSalarie, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (\PDOException $e) {
+            );
+            $stmt->bindParam(':idSalarie', $idSalarie, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
             throw new \Exception("Erreur lors de la récupération des visites non validées : " . $e->getMessage());
         }
     }
@@ -55,11 +55,11 @@ class Modele_Visites
              WHERE v.id_salarie = :idSalarie 
              AND v.validation = 1  
              ORDER BY v.date_du_jour DESC'
-        );
-        $stmt->bindParam(':idSalarie', $idSalarie, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (\PDOException $e) {
+            );
+            $stmt->bindParam(':idSalarie', $idSalarie, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
             throw new \Exception("Erreur lors de la récupération de l'historique des visites : " . $e->getMessage());
         }
     }
@@ -93,9 +93,9 @@ class Modele_Visites
 
     /**
      * Crée une nouvelle visite :
-       On commence par créer la date de la visite associé à son horaire dans la table date_visite
-       On vérifie préalablement qu'elle n'existe pas déjà.
-    */
+    On commence par créer la date de la visite associé à son horaire dans la table date_visite
+    On vérifie préalablement qu'elle n'existe pas déjà.
+     */
 
     public static function dateVisiteExiste(string $date_du_jour, string $heure_du_rdv): bool {
         try {
@@ -215,27 +215,29 @@ class Modele_Visites
 
 // -----------    Pour le Délégué
 
-    public static function getVisitesParRegion(array $idRegions): array
+    public static function getVisitesParRegion(int $idRegion): array
     {
         try {
             // Création d'une instance PDO
             $pdo = Singleton_ConnexionPDO::getInstance();
 
-            // Préparer la requête SQL pour récupérer les visites liées aux régions
+            // Préparer la requête SQL pour récupérer les visites liées à une région spécifique
             $stmt = $pdo->prepare("
-                SELECT v.*, p.nom_pds AS nom_pro, p.prenom_pds AS prenom_pro, p.adresse_pds AS adresse_pro, s.nom , s.prenom
-                FROM visiter v
-                INNER JOIN professionnels_de_sante p ON v.id_pds = p.id_pds
-                INNER JOIN visiteur vi ON v.id_salarie = vi.id_salarie
-                INNER JOIN salarie s ON v.id_salarie = s.id_salarie
-                WHERE vi.id_region IN (" . implode(',', array_fill(0, count($idRegions), '?')) . ")
-                ");
+            SELECT v.*, p.nom_pds AS nom_pro, p.prenom_pds AS prenom_pro, p.adresse_pds AS adresse_pro, 
+                   s.nom, s.prenom
+            FROM visiter v
+            INNER JOIN professionnels_de_sante p ON v.id_pds = p.id_pds
+            INNER JOIN visiteur vi ON v.id_salarie = vi.id_salarie
+            INNER JOIN salarie s ON v.id_salarie = s.id_salarie
+            WHERE vi.id_region = :idRegion
+        ");
 
-            // Exécuter la requête avec les IDs des régions
-            $stmt->execute($idRegions);
+            // Exécuter la requête avec l'ID de la région
+            $stmt->execute(['idRegion' => $idRegion]);
 
-            // Retourner les résultats sous forme de tableau
-            return $stmt->fetchAll();
+            // Retourner les résultats sous forme de tableau associatif
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         } catch (\PDOException $e) {
             throw new \Exception("Erreur lors de la récupération des visites par région : " . $e->getMessage());
         }

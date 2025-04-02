@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2025 at 02:38 PM
+-- Generation Time: Apr 02, 2025 at 03:18 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,13 +37,7 @@ CREATE TABLE `date_visite` (
 --
 
 INSERT INTO `date_visite` (`date_du_jour`, `heure_du_rdv`) VALUES
-('0000-00-00', '13:30:00'),
-('2025-01-20', '13:30:00'),
-('2025-01-21', '14:23:00'),
-('2025-01-23', '14:00:00'),
-('2025-02-19', '09:46:00'),
-('2025-02-19', '19:30:00'),
-('2025-02-20', '12:00:00');
+('2025-04-11', '17:00:00');
 
 -- --------------------------------------------------------
 
@@ -53,17 +47,18 @@ INSERT INTO `date_visite` (`date_du_jour`, `heure_du_rdv`) VALUES
 
 CREATE TABLE `delegue_regional` (
   `id_salarie` int(11) NOT NULL,
-  `id_region` int(11) NOT NULL,
-  `id_secteur` int(11) NOT NULL
+  `id_region` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `delegue_regional`
 --
 
-INSERT INTO `delegue_regional` (`id_salarie`, `id_region`, `id_secteur`) VALUES
-(4, 1, 1),
-(26, 1, 1);
+INSERT INTO `delegue_regional` (`id_salarie`, `id_region`) VALUES
+(4, 48),
+(35, 68),
+(36, 72),
+(37, 121);
 
 -- --------------------------------------------------------
 
@@ -82,9 +77,26 @@ CREATE TABLE `medicaments` (
 --
 
 INSERT INTO `medicaments` (`id_medicament`, `prix`, `designation`) VALUES
-(1, 10.99, 'Doliprane'),
-(4, 3.99, 'Medoc_Test'),
-(6, 2.18, 'Dafalgan');
+(7, 4.99, 'Paracétamol 500mg'),
+(8, 7.50, 'Ibuprofène 400mg'),
+(9, 12.30, 'Amoxicilline 500mg'),
+(10, 5.20, 'Aspirine 100mg'),
+(11, 8.99, 'Oméprazole 20mg'),
+(12, 15.75, 'Cétirizine 10mg'),
+(13, 9.45, 'Loratadine 10mg'),
+(14, 18.60, 'Médrol 16mg'),
+(15, 22.99, 'Salbutamol 100mcg'),
+(16, 30.50, 'Insuline rapide'),
+(17, 25.99, 'Metformine 850mg'),
+(18, 19.75, 'Atorvastatine 10mg'),
+(19, 14.25, 'Simvastatine 20mg'),
+(20, 6.80, 'Dafalgan 500mg'),
+(21, 27.40, 'Losartan 50mg'),
+(22, 33.10, 'Ramipril 5mg'),
+(23, 11.99, 'Levothyrox 75mcg'),
+(24, 20.99, 'Bétaméthasone 0.5mg'),
+(25, 17.50, 'Fluoxetine 20mg'),
+(26, 23.99, 'Diazépam 5mg');
 
 -- --------------------------------------------------------
 
@@ -100,17 +112,33 @@ CREATE TABLE `professionnels_de_sante` (
   `metier` varchar(255) NOT NULL,
   `adresse_pds` varchar(255) NOT NULL,
   `CP_pds` int(11) NOT NULL,
-  `ville_pds` varchar(255) NOT NULL
+  `ville_pds` varchar(255) NOT NULL,
+  `id_region` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `professionnels_de_sante`
 --
 
-INSERT INTO `professionnels_de_sante` (`id_pds`, `nom_pds`, `prenom_pds`, `age_pds`, `metier`, `adresse_pds`, `CP_pds`, `ville_pds`) VALUES
-(1, 'pdstest2', 'pdstest', 35, 'testeurMedoc', '1 rue du Medecin', 123456, 'TestLand'),
-(2, 'pdstest', 'pdstest', 40, 'testeurMedoc', '1 rue du Medecin', 123456, 'TestLand'),
-(8, 'Churlet', 'Florent', 156, 'Technicien de Santé', '56 rue alphonse de Rochas', 90000, 'Belfort');
+INSERT INTO `professionnels_de_sante` (`id_pds`, `nom_pds`, `prenom_pds`, `age_pds`, `metier`, `adresse_pds`, `CP_pds`, `ville_pds`, `id_region`) VALUES
+(9, 'Dupont', 'Alice', 45, 'Médecin généraliste', '12 rue des Lilas', 75012, 'Paris', 76),
+(10, 'Martin', 'Thomas', 38, 'Dentiste', '24 avenue de la République', 33000, 'Bordeaux', 94),
+(11, 'Bernard', 'Sophie', 50, 'Pharmacien', '5 boulevard Saint-Michel', 59000, 'Lille', 72),
+(12, 'Lefebvre', 'Julien', 42, 'Chirurgien', '18 rue de la Paix', 67000, 'Strasbourg', 68),
+(13, 'Morel', 'Camille', 29, 'Infirmier', '9 place Bellecour', 69002, 'Lyon', 38),
+(14, 'Girard', 'Lucas', 55, 'Cardiologue', '31 rue du Moulin', 6000, 'Nice', 121),
+(15, 'Roux', 'Emma', 47, 'Ophtalmologue', '14 impasse des Acacias', 44000, 'Nantes', 114),
+(16, 'Fournier', 'Hugo', 33, 'Pédiatre', '22 rue des Rosiers', 31000, 'Toulouse', 105),
+(17, 'Durand', 'Manon', 41, 'Sage-femme', '7 allée des Tilleuls', 13006, 'Marseille', 122),
+(18, 'Lambert', 'Nathan', 36, 'Psychologue', '10 boulevard Haussmann', 75009, 'Paris', 76),
+(19, 'Dumont', 'Chloé', 52, 'Gynécologue', '8 rue Lafayette', 21000, 'Dijon', 41),
+(20, 'Lemoine', 'Maxime', 48, 'Neurologue', '19 avenue des Champs-Élysées', 75008, 'Paris', 76),
+(21, 'Perrin', 'Laura', 39, 'Ostéopathe', '25 route de Rennes', 35000, 'Rennes', 51),
+(22, 'Marchand', 'Antoine', 34, 'Kinésithérapeute', '4 chemin du Parc', 72000, 'Le Mans', 117),
+(23, 'Blanchard', 'Elise', 31, 'Dermatologue', '3 rue du Soleil', 68000, 'Colmar', 68),
+(24, 'Tesson', 'Aurélien', 42, 'Dermatologue', '22 Rue de la Gare', 90000, 'Belfort', 48),
+(25, 'Giraud', 'Solène', 35, 'Psychologue', '8 Rue de la République', 90000, 'Belfort', 48),
+(26, 'Fournier', 'Bastien', 48, 'Cardiologue', '5 Avenue de la Paix', 90000, 'Belfort', 48);
 
 -- --------------------------------------------------------
 
@@ -129,9 +157,102 @@ CREATE TABLE `region` (
 --
 
 INSERT INTO `region` (`id_region`, `id_secteur`, `libelle_region`) VALUES
-(1, 1, 'Belfort'),
-(2, 1, 'Haut-Rhin'),
-(3, 2, 'Bas-Rhin');
+(29, 24, 'Ain'),
+(30, 24, 'Allier'),
+(31, 24, 'Ardèche'),
+(32, 24, 'Cantal'),
+(33, 24, 'Drôme'),
+(34, 24, 'Isère'),
+(35, 24, 'Loire'),
+(36, 24, 'Haute-Loire'),
+(37, 24, 'Puy-de-Dôme'),
+(38, 24, 'Rhône'),
+(39, 24, 'Savoie'),
+(40, 24, 'Haute-Savoie'),
+(41, 25, 'Côte-d\'Or'),
+(42, 25, 'Doubs'),
+(43, 25, 'Jura'),
+(44, 25, 'Nièvre'),
+(45, 25, 'Haute-Saône'),
+(46, 25, 'Saône-et-Loire'),
+(47, 25, 'Yonne'),
+(48, 25, 'Territoire de Belfort'),
+(49, 26, 'Côtes-d\'Armor'),
+(50, 26, 'Finistère'),
+(51, 26, 'Ille-et-Vilaine'),
+(52, 26, 'Morbihan'),
+(53, 27, 'Cher'),
+(54, 27, 'Eure-et-Loir'),
+(55, 27, 'Indre'),
+(56, 27, 'Indre-et-Loire'),
+(57, 27, 'Loir-et-Cher'),
+(58, 27, 'Loiret'),
+(59, 28, 'Corse-du-Sud'),
+(60, 28, 'Haute-Corse'),
+(61, 29, 'Ardennes'),
+(62, 29, 'Aube'),
+(63, 29, 'Marne'),
+(64, 29, 'Haute-Marne'),
+(65, 29, 'Meurthe-et-Moselle'),
+(66, 29, 'Meuse'),
+(67, 29, 'Moselle'),
+(68, 29, 'Bas-Rhin'),
+(69, 29, 'Haut-Rhin'),
+(70, 29, 'Vosges'),
+(71, 30, 'Aisne'),
+(72, 30, 'Nord'),
+(73, 30, 'Oise'),
+(74, 30, 'Pas-de-Calais'),
+(75, 30, 'Somme'),
+(76, 31, 'Paris'),
+(77, 31, 'Seine-et-Marne'),
+(78, 31, 'Yvelines'),
+(79, 31, 'Essonne'),
+(80, 31, 'Hauts-de-Seine'),
+(81, 31, 'Seine-Saint-Denis'),
+(82, 31, 'Val-de-Marne'),
+(83, 31, 'Val-d\'Oise'),
+(84, 32, 'Calvados'),
+(85, 32, 'Eure'),
+(86, 32, 'Manche'),
+(87, 32, 'Orne'),
+(88, 32, 'Seine-Maritime'),
+(89, 33, 'Charente'),
+(90, 33, 'Charente-Maritime'),
+(91, 33, 'Corrèze'),
+(92, 33, 'Creuse'),
+(93, 33, 'Dordogne'),
+(94, 33, 'Gironde'),
+(95, 33, 'Landes'),
+(96, 33, 'Lot-et-Garonne'),
+(97, 33, 'Pyrénées-Atlantiques'),
+(98, 33, 'Deux-Sèvres'),
+(99, 33, 'Vienne'),
+(100, 33, 'Haute-Vienne'),
+(101, 34, 'Ariège'),
+(102, 34, 'Aude'),
+(103, 34, 'Aveyron'),
+(104, 34, 'Gard'),
+(105, 34, 'Haute-Garonne'),
+(106, 34, 'Gers'),
+(107, 34, 'Hérault'),
+(108, 34, 'Lot'),
+(109, 34, 'Lozère'),
+(110, 34, 'Hautes-Pyrénées'),
+(111, 34, 'Pyrénées-Orientales'),
+(112, 34, 'Tarn'),
+(113, 34, 'Tarn-et-Garonne'),
+(114, 35, 'Loire-Atlantique'),
+(115, 35, 'Maine-et-Loire'),
+(116, 35, 'Mayenne'),
+(117, 35, 'Sarthe'),
+(118, 35, 'Vendée'),
+(119, 36, 'Alpes-de-Haute-Provence'),
+(120, 36, 'Hautes-Alpes'),
+(121, 36, 'Alpes-Maritimes'),
+(122, 36, 'Bouches-du-Rhône'),
+(123, 36, 'Var'),
+(124, 36, 'Vaucluse');
 
 -- --------------------------------------------------------
 
@@ -149,7 +270,8 @@ CREATE TABLE `responsable_secteur` (
 --
 
 INSERT INTO `responsable_secteur` (`id_salarie`, `id_secteur`) VALUES
-(6, 1);
+(6, 25),
+(38, 34);
 
 -- --------------------------------------------------------
 
@@ -177,11 +299,16 @@ INSERT INTO `salarie` (`id_salarie`, `nom`, `prenom`, `email`, `mot_de_passe`, `
 (2, 'visiteur', 'visiteur', 'visiteur@vigsb.fr', 'visiteur', 20, '3 rue du visiteur Normalviller 00000', 'visiteur'),
 (4, 'delegue_regional', 'delegue_regional', 'delegueregional@vigsb.fr', 'region', 49, '57 rue du Delegue Regional', 'delegue'),
 (6, 'secteur', 'secteur', 'secteur@vigsb.fr', 'secteur', 34, '6 rue du secteur du Bois', 'responsable'),
-(15, 'nom_test2', 'prenom_test', 'test@vigsb.fr', 'test', 50, '24 RUE DE MULHOUSE', 'visiteur'),
-(16, 'Meyer', 'Jan', 'janmeyer@vigsb.fr', 'jan', 19, '46 RUE DE MULHOUSE', 'visiteur'),
-(18, 'visiteursecteur', 'visiteursecteur', 'visiteursecteur@vigsb.fr', 'mdp', 18, '6 rue du test', 'visiteur'),
-(26, 'nouveauDeg', 'NouveauDeg', 'nouveaudef@vigsb.fr', 'mdp', 19, '3 du Nouveau', 'delegue'),
-(28, 'Blanca', 'Liz', 'lizblanca@vigsb.fr', 'Mot2PasseMerde', 19, '11 Rue du Vicomte de Turenne', 'visiteur');
+(29, 'Durand', 'Paul', 'pauldurand@vigsb.fr', 'paul123', 25, '10 rue des Fleurs, Paris', 'visiteur'),
+(30, 'Lemoine', 'Sophie', 'sophielemoine@vigsb.fr', 'sophie456', 30, '15 avenue de la République, Lyon', 'visiteur'),
+(31, 'Martin', 'Lucas', 'lucasmartin@vigsb.fr', 'lucas789', 22, '5 place de la Liberté, Marseille', 'visiteur'),
+(32, 'Dubois', 'Camille', 'camilledubois@vigsb.fr', 'camille321', 28, '8 boulevard Saint-Michel, Bordeaux', 'visiteur'),
+(33, 'Morel', 'Emma', 'emmamorel@vigsb.fr', 'emma654', 24, '12 allée des Acacias, Toulouse', 'visiteur'),
+(34, 'Bernard', 'Louis', 'louisbernard@vigsb.fr', 'louis987', 27, '20 chemin du Moulin, Nantes', 'visiteur'),
+(35, 'Renaud', 'Maxime', 'maximerenaud@vigsb.fr', 'maxime123', 40, '25 avenue des Champs, Strasbourg', 'delegue'),
+(36, 'Simon', 'Claire', 'clairesimon@vigsb.fr', 'claire456', 45, '30 rue de la Paix, Lille', 'delegue'),
+(37, 'Girard', 'Antoine', 'antoinegirard@vigsb.fr', 'antoine789', 38, '35 boulevard Haussmann, Nice', 'delegue'),
+(38, 'Lefevre', 'Julie', 'julielefevre@vigsb.fr', 'julie321', 42, '40 rue des Lilas, Montpellier', 'responsable');
 
 -- --------------------------------------------------------
 
@@ -199,9 +326,19 @@ CREATE TABLE `secteur` (
 --
 
 INSERT INTO `secteur` (`id_secteur`, `libelle_secteur`) VALUES
-(1, 'Nord-Est'),
-(2, 'Sud-Ouest'),
-(3, 'Ile-de-France');
+(24, 'Auvergne-Rhône-Alpes'),
+(25, 'Bourgogne-Franche-Comté'),
+(26, 'Bretagne'),
+(27, 'Centre-Val de Loire'),
+(28, 'Corse'),
+(29, 'Grand Est'),
+(30, 'Hauts-de-France'),
+(31, 'Île-de-France'),
+(32, 'Normandie'),
+(33, 'Nouvelle-Aquitaine'),
+(34, 'Occitanie'),
+(35, 'Pays de la Loire'),
+(36, 'Provence-Alpes-Côte d\'Azur');
 
 -- --------------------------------------------------------
 
@@ -223,11 +360,7 @@ CREATE TABLE `visiter` (
 --
 
 INSERT INTO `visiter` (`date_du_jour`, `id_medicament`, `id_pds`, `id_salarie`, `commentaire`, `validation`) VALUES
-('2025-01-21', 1, 2, 2, 'Test d\'un compte-rendu', 1),
-('2025-01-23', 1, 2, 16, 'Je rédige mon compte-rendu', 1),
-('2025-02-19', 1, 2, 2, 'Ceci est le compte-rendu à valider pour tester ma fonctionnalité', 1),
-('2025-02-19', 4, 2, 2, '', 0),
-('2025-02-20', 4, 8, 28, 'J\'ai présenté le Médicament de test à Monsieur Florent Churlet.\r\nCelui-ci semblait enthousiaste à l\'idée de cette nouvelle méthode.\r\nUn échantillon de 5 pièces lui a été confié.\r\nEn attente de son retour dans les deux semaines à venir.', 1);
+('2025-04-11', 16, 24, 2, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -245,10 +378,13 @@ CREATE TABLE `visiteur` (
 --
 
 INSERT INTO `visiteur` (`id_salarie`, `id_region`) VALUES
-(2, 1),
-(15, 1),
-(16, 1),
-(28, 1);
+(2, 48),
+(29, 48),
+(34, 74),
+(33, 97),
+(32, 106),
+(31, 107),
+(30, 116);
 
 --
 -- Indexes for dumped tables
@@ -264,9 +400,8 @@ ALTER TABLE `date_visite`
 -- Indexes for table `delegue_regional`
 --
 ALTER TABLE `delegue_regional`
-  ADD PRIMARY KEY (`id_salarie`,`id_region`,`id_secteur`),
-  ADD KEY `id_region` (`id_region`),
-  ADD KEY `id_secteur` (`id_secteur`);
+  ADD PRIMARY KEY (`id_salarie`,`id_region`) USING BTREE,
+  ADD KEY `delegue_region` (`id_region`);
 
 --
 -- Indexes for table `medicaments`
@@ -281,14 +416,14 @@ ALTER TABLE `medicaments`
 ALTER TABLE `professionnels_de_sante`
   ADD PRIMARY KEY (`id_pds`),
   ADD KEY `idx_nom_pds` (`nom_pds`),
-  ADD KEY `idx_prenom_pds` (`prenom_pds`);
+  ADD KEY `idx_prenom_pds` (`prenom_pds`),
+  ADD KEY `fk_id_region` (`id_region`);
 
 --
 -- Indexes for table `region`
 --
 ALTER TABLE `region`
-  ADD PRIMARY KEY (`id_region`),
-  ADD KEY `id_secteur` (`id_secteur`);
+  ADD PRIMARY KEY (`id_region`);
 
 --
 -- Indexes for table `responsable_secteur`
@@ -335,31 +470,31 @@ ALTER TABLE `visiteur`
 -- AUTO_INCREMENT for table `medicaments`
 --
 ALTER TABLE `medicaments`
-  MODIFY `id_medicament` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_medicament` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `professionnels_de_sante`
 --
 ALTER TABLE `professionnels_de_sante`
-  MODIFY `id_pds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `region`
 --
 ALTER TABLE `region`
-  MODIFY `id_region` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_region` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `salarie`
 --
 ALTER TABLE `salarie`
-  MODIFY `id_salarie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_salarie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `secteur`
 --
 ALTER TABLE `secteur`
-  MODIFY `id_secteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_secteur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -369,9 +504,14 @@ ALTER TABLE `secteur`
 -- Constraints for table `delegue_regional`
 --
 ALTER TABLE `delegue_regional`
-  ADD CONSTRAINT `delegue_regional_ibfk_1` FOREIGN KEY (`id_salarie`) REFERENCES `salarie` (`id_salarie`) ON DELETE CASCADE,
-  ADD CONSTRAINT `delegue_regional_ibfk_2` FOREIGN KEY (`id_region`) REFERENCES `region` (`id_region`) ON DELETE CASCADE,
-  ADD CONSTRAINT `delegue_regional_ibfk_3` FOREIGN KEY (`id_secteur`) REFERENCES `secteur` (`id_secteur`) ON DELETE CASCADE;
+  ADD CONSTRAINT `delegue_region` FOREIGN KEY (`id_region`) REFERENCES `region` (`id_region`),
+  ADD CONSTRAINT `salarie_est_delegue` FOREIGN KEY (`id_salarie`) REFERENCES `salarie` (`id_salarie`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `professionnels_de_sante`
+--
+ALTER TABLE `professionnels_de_sante`
+  ADD CONSTRAINT `fk_id_region` FOREIGN KEY (`id_region`) REFERENCES `region` (`id_region`);
 
 --
 -- Constraints for table `responsable_secteur`

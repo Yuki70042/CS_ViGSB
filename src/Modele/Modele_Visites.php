@@ -97,6 +97,8 @@ class Modele_Visites
     On vérifie préalablement qu'elle n'existe pas déjà.
      */
 
+
+    // A Supprimer
     public static function dateVisiteExiste(string $date_du_jour, string $heure_du_rdv): bool {
         try {
             $pdo = Singleton_ConnexionPDO::getInstance();
@@ -114,6 +116,7 @@ class Modele_Visites
     }
 
 
+    // A Supprimer
     public static function ajouterDateVisite(string $date_du_jour, string $heure_du_rdv): bool {
         try {
             $pdo = Singleton_ConnexionPDO::getInstance();
@@ -242,6 +245,71 @@ class Modele_Visites
             throw new \Exception("Erreur lors de la récupération des visites par région : " . $e->getMessage());
         }
     }
+
+
+    public static function getVisitesEnAttenteValidation(int $idRegion): array
+    {
+        try {
+            // Création d'une instance PDO
+            $pdo = Singleton_ConnexionPDO::getInstance();
+
+            // Préparer la requête SQL pour récupérer les visites liées à une région spécifique
+            $stmt = $pdo->prepare("
+            SELECT v.*, p.nom_pds AS nom_pro, p.prenom_pds AS prenom_pro, p.adresse_pds AS adresse_pro, 
+                   s.nom, s.prenom, v.date_du_jour AS date
+            FROM visiter v
+            INNER JOIN professionnels_de_sante p ON v.id_pds = p.id_pds
+            INNER JOIN visiteur vi ON v.id_salarie = vi.id_salarie
+            INNER JOIN salarie s ON v.id_salarie = s.id_salarie
+            WHERE vi.id_region = :idRegion AND v.validation = 0 AND commentaire IS NOT NULL;
+        ");
+
+            // Exécuter la requête avec l'ID de la région
+            $stmt->execute(['idRegion' => $idRegion]);
+
+            // Retourner les résultats sous forme de tableau associatif
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération des visites par région : " . $e->getMessage());
+        }
+    }
+
+    public static function getVisitesEnAttenteCompteRendu(int $idRegion): array
+    {
+        try {
+            // Création d'une instance PDO
+            $pdo = Singleton_ConnexionPDO::getInstance();
+
+            // Préparer la requête SQL pour récupérer les visites liées à une région spécifique
+            $stmt = $pdo->prepare("
+            SELECT v.*, p.nom_pds AS nom_pro, p.prenom_pds AS prenom_pro, p.adresse_pds AS adresse_pro, 
+                   s.nom, s.prenom, v.date_du_jour AS date
+            FROM visiter v
+            INNER JOIN professionnels_de_sante p ON v.id_pds = p.id_pds
+            INNER JOIN visiteur vi ON v.id_salarie = vi.id_salarie
+            INNER JOIN salarie s ON v.id_salarie = s.id_salarie
+            WHERE vi.id_region = :idRegion AND v.validation = 0 AND commentaire IS NULL;
+        ");
+
+            // Exécuter la requête avec l'ID de la région
+            $stmt->execute(['idRegion' => $idRegion]);
+
+            // Retourner les résultats sous forme de tableau associatif
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération des visites par région : " . $e->getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
 
     // -----------    Pour le Responsable
     public static function getRegionsDuSecteur(int $idSecteur): array

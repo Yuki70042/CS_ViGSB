@@ -198,3 +198,52 @@ a[disabled]:hover {
     cursor: not-allowed;
     pointer-events: none;
 }
+
+/* Conteneur principal */
+.visites-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 5vh 10vh 5vh 10vh;
+    border: solid;
+}
+
+.visites-container h2{
+    display: flex;
+    justify-content: center;
+
+}
+
+/* Colonne de gauche */
+.visites-col-gauche {
+    width: 40%;
+    margin-left: 25vh;
+    margin-right: 2vh;
+}
+
+/* Colonne de droite */
+.visites-col-droite {
+    width: 40%;
+    margin-right: 25vh;
+    margin-left: 2vh;
+}
+
+/* Style de chaque visite */
+.visite {
+    background: #f9f9f9;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur d'information */
+.info-gauche {
+    flex: 1;
+}
+
+/* Conteneur d'actions */
+.info-droite {
+    text-align: right;
+    flex: 1;
+}

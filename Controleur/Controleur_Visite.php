@@ -4,6 +4,7 @@ use App\Modele\Modele_Praticiens;
 use App\Modele\Modele_Visites;
 use App\Modele\Modele_Delegues;
 use App\Vue\Vue_Visites_Liste;
+use App\Vue\Vue_VisitesRegion_Liste;
 use App\Vue\Vue_CompteRendu_Formulaire;
 use App\Vue\Vue_Structure_Entete;
 use App\Vue\Vue_Visite_Formulaire;
@@ -24,8 +25,9 @@ switch ($action) {
             $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
 
             // Récupérer les visites pour toutes les régions du délégué
-            $visites = Modele_Visites::getVisitesParRegion($idRegion);
-            $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visites));
+            $visitesSansCR = Modele_Visites::getVisitesEnAttenteCompteRendu($idRegion);
+            $visitesEnAttenteValidation = Modele_Visites::getVisitesEnAttenteValidation($idRegion);
+            $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visitesSansCR, $visitesEnAttenteValidation));
         }
 
         // Si la personne est responsable

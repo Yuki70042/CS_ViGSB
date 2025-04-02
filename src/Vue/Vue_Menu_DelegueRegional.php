@@ -17,7 +17,7 @@ class Vue_Menu_DelegueRegional extends Vue_Composant
                     <meta charset='UTF-8'>
                     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
                     <title>Menu Délégué Regional</title>
-                    <link rel='stylesheet' href='../public/Menu_Delegues.css'> 
+                    <link rel='stylesheet' href='../public/css/Menu_Delegues.css'> 
                 </head>
                 <nav id='menu'>
                     <div id='menu-container'>

@@ -16,7 +16,7 @@ class Vue_Menu_Visiteur extends Vue_Composant
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <title>Menu Visiteur</title>
-            <link rel='stylesheet' href='../public/Menu_Visiteurs.css'> 
+            <link rel='stylesheet' href='../public/css/Menu_Visiteurs.css'> 
         </head>
                 
         <div class='menu-container'>

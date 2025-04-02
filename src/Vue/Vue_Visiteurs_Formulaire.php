@@ -26,7 +26,7 @@ class Vue_Visiteurs_Formulaire extends Vue_Composant {
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Modifier le Compte-Rendu</title>
-                    <link rel="stylesheet" href="../public/Listes_Table.css"> 
+                    <link rel="stylesheet" href="../public/css/Listes_Table.css"> 
                 </head>
             <h1>' . $titre . '</h1>';
             $html .= '<form action="index.php?case=Gerer_Visiteurs&action=' . $action . '" method="post">

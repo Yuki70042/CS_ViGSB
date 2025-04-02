@@ -14,7 +14,7 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
     {
         $html = "
 
-        <link rel='stylesheet' href='../../public/Visites_Liste.css'> 
+        <link rel='stylesheet' href='../../public/css/Visites_Liste.css'> 
         <ul>";
         // Changer le titre en fonction du type de connexion
         if ($_SESSION["typeConnexionBack"] === "responsable") {

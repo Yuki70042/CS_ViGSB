@@ -15,7 +15,7 @@ class Vue_Structure_Entete  extends Vue_Composant
         <head>
            <meta charset='utf-8'>
             <!-- importer le fichier de style -->
-            <link rel='stylesheet' href='.\public\style.css' media='screen' type='text/css' />
+            <link rel='stylesheet' href='.\public\css\style.css' media='screen' type='text/css' />
         </head>
         
         

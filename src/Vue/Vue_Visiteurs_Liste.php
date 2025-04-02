@@ -18,7 +18,7 @@ class Vue_Visiteurs_Liste extends Vue_Composant {
                     <meta charset='UTF-8'>
                     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
                     <title>Liste des Visiteurs</title>
-                    <link rel='stylesheet' href='../public/Liste.css'> 
+                    <link rel='stylesheet' href='../public/css/Liste.css'> 
                 </head>";
 
         // Vérifie s'il y a un message dans la session

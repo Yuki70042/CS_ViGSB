@@ -19,7 +19,7 @@ class Vue_Praticiens_Liste extends Vue_Composant {
                     <meta charset='UTF-8'>
                     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
                     <title>Modifier le Compte-Rendu</title>
-                    <link rel='stylesheet' href='../public/Liste.css'> 
+                    <link rel='stylesheet' href='../public/css/Liste.css'> 
                 </head>";
 
         // Vérifie s'il y a un message dans la session

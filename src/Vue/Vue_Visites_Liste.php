@@ -19,7 +19,7 @@ class Vue_Visites_Liste extends Vue_Composant
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <title>Mes Visites</title>
-            <link rel='stylesheet' href='../../public/Visites_Liste.css'> <!-- Lien vers le CSS -->
+            <link rel='stylesheet' href='../../public/css/Visites_Liste.css'> <!-- Lien vers le CSS -->
         </head>
     <ul>";
         // Changer le titre en fonction de l'action

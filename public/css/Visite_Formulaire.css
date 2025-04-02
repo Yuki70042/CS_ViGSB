@@ -6,7 +6,7 @@
      background-color: #f9f9f9;
      border-radius: 8px;
      width: 50%;
-     margin: auto;
+     margin: 5vh auto auto auto;
      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
  }
 
@@ -31,6 +31,7 @@
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .formulaire-visite button {
@@ -99,3 +100,25 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+
+ select {
+     width: 100%;
+     padding: 10px;
+     font-size: 16px;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     background-color: #fff;
+     cursor: pointer;
+ }
+
+
+ select:hover {
+     border-color: #4A90E2;
+ }
+
+ select:focus {
+     outline: none;
+     border-color: #3A81E6;
+     box-shadow: 0px 0px 5px rgba(58, 129, 230, 0.5);
+ }

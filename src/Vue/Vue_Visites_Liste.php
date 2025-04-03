@@ -18,12 +18,12 @@ class Vue_Visites_Liste extends Vue_Composant
         <head>
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <title>Mes Visites</title>
+            <title>Visites</title>
             <link rel='stylesheet' href='../../public/css/Visites_Liste.css'> <!-- Lien vers le CSS -->
         </head>
     <ul>";
         // Changer le titre en fonction de l'action
-        $titre = ($_GET['action'] === 'historique') ? "Historique" : "Mes Visites";
+        $titre = ($_GET['action'] === 'historique') || ($_GET['action'] === 'historiqueVisitesParRegion')  ? "Historique" : "Mes Visites";
         $html .= "<h1>$titre</h1><ul>";
 
 

@@ -6,13 +6,7 @@ use PDO;
 
 class Modele_Praticiens
 {
-    public static function getPraticiens(): array {
-        $pdo = Singleton_ConnexionPDO::getInstance();
-        $stmt = $pdo->query("SELECT id_pds, nom_pds, prenom_pds, metier FROM professionnels_de_sante");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function getTousPraticiens(): array
+    public static function getPraticiens(): array
     {
         try {
             $pdo = Singleton_ConnexionPDO::getInstance();
@@ -41,23 +35,36 @@ class Modele_Praticiens
     }
 
     public static function getPraticienDeLaRegion(int $id_region): array {
-        // Fonction retournant uniquement les praticiens de la même région que le délégué
         try {
             $pdo = Singleton_ConnexionPDO::getInstance();
             $stmt = $pdo->prepare('
             SELECT p.* 
             FROM professionnels_de_sante p 
-            INNER JOIN region r ON r.id_region = p.id_region
-            INNER JOIN delegue_regional d ON d.id_region = r.id_region
-            WHERE r.id_region = :id_region
-            ');
+            WHERE p.id_region = :id_region
+        ');
             $stmt->execute(['id_region' => $id_region]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         } catch (\PDOException $e) {
             throw new \Exception("Erreur lors de la récupération des praticiens : " . $e->getMessage());
         }
     }
+
+    public static function getPraticiensDuSecteur(int $idSecteur): array {
+        try {
+            $pdo = Singleton_ConnexionPDO::getInstance();
+            $stmt = $pdo->prepare('
+            SELECT p.* 
+            FROM professionnels_de_sante p
+            INNER JOIN region r ON p.id_region = r.id_region
+            WHERE r.id_secteur = :idSecteur
+        ');
+            $stmt->execute(['idSecteur' => $idSecteur]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération des praticiens du secteur : " . $e->getMessage());
+        }
+    }
+
 
     public static function modifierPraticien(
         int $idPds,
@@ -109,7 +116,6 @@ class Modele_Praticiens
                 ':prenom_pds' => $prenom_pds,
                 ':age_pds' => $age_pds,
                 ':metier' => $metier,
-//                ':mdp' => password_hash($mdp, PASSWORD_DEFAULT), // Hash du mot de passe
                 ':adresse_pds' => $adresse_pds,
                 ':CP_pds' => $CP_pds,
                 ':ville_pds' => $ville_pds,

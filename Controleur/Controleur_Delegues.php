@@ -15,13 +15,16 @@ $action = $_REQUEST["action"] ?? "voirListe";
 switch ($action) {
     case "voirListe":
         // Récupérer les visiteurs sous supervision
-        $delegues = \App\Modele\Modele_Delegues::getDelegues();
+        $secteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
+        $delegues = \App\Modele\Modele_Delegues::getDeleguesSousSupervision($secteur);
         $Vue->addToCorps(new Vue_Delegues_Liste($delegues));
         break;
 
     case "ajouter":
         // Formulaire d'ajout de visiteur
-        $Vue->addToCorps(new Vue_Delegues_Formulaire());
+        $secteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
+        $regions = \App\Modele\Modele_Regions::getRegionsDuSecteur($secteur);
+        $Vue->addToCorps(new Vue_Delegues_Formulaire(null, $regions));
         break;
 
     case "traiterAjout":
@@ -41,7 +44,6 @@ switch ($action) {
             $secteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
             // Ajouter le délégué avec la région sélectionnée
             Modele_Delegues::ajouterDelegues(
-                $secteur, // Secteur du Responsable actuellement connecté
                 $idSalarie,               // ID du salarié ajouté
                 $_POST['region']         // ID de la région sélectionnée
             );
@@ -50,10 +52,15 @@ switch ($action) {
         break;
 
     case "modifier":
-        // Charger le formulaire de modification avec les données existantes
+        var_dump($_GET['id_salarie']);
         if (isset($_GET['id_salarie'])) {
-            $salarie = Modele_Salarie::getSalarieById($_GET['id_salarie']);
-            $Vue->addToCorps(new Vue_Delegues_Formulaire($salarie));
+            $idSalarie = $_GET['id_salarie'];
+            // Charger le secteur et les régions
+            $secteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
+            $regions = \App\Modele\Modele_Regions::getRegionsDuSecteur($secteur);
+            // Charger les informations du salarié avec l'ID passé en paramètre
+            $salarie = Modele_Salarie::getSalarieById($idSalarie);
+            $Vue->addToCorps(new Vue_Delegues_Formulaire($salarie, $regions));
         }
         break;
 

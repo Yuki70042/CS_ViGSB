@@ -62,6 +62,14 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
 
         $html .= "</div>"; // fin du conteneur principal
 
+        $html .= "
+            <!-- Bouton vers l'historique des visites validés -->
+            <form method='GET' action='index.php'>
+                <input type='hidden' name='action' value='historiqueVisitesParRegion'>
+                <input type='hidden' name='case' value='Gerer_Visites'>
+                <button type='submit'>Historique des précédentes visites</button>
+            </form>";
+
         return $html;
     }
 
@@ -108,18 +116,19 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
                 </div>
                 <div class='info-droite'>
                     <label>
-                        <input type='checkbox' disabled $checkboxStatus>
-                        <span>" . ($compteRenduExistant ? "Compte-rendu réalisé" : "Compte-rendu non réalisé") . "</span>
+                        <!--<input type='checkbox' disabled $checkboxStatus>
+                        <span>" . ($compteRenduExistant ? "Compte-rendu réalisé" : "Compte-rendu non réalisé") . "</span> -->
                     </label>
                     <br>
                     <label>
-                        <input type='checkbox' disabled $checkboxStatus>
-                        <span>" . ($validationEffectuee ? "Compte-rendu validé" : "Compte-rendu non validé") . "</span>
+                        <!--<input type='checkbox' disabled $checkboxStatus>
+                        <span>" . ($validationEffectuee ? "Compte-rendu validé" : "Compte-rendu non validé") . "</span> -->
                     </label>
                     <br>
                     <a href='$editLink' class='$buttonClass' $buttonDisabled>$buttonText</a>
                 </div>
             </div>
         ";
+
     }
 }

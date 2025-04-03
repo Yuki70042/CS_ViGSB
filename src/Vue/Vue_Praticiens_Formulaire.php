@@ -7,9 +7,11 @@ use App\Utilitaire\Vue_Composant;
 class Vue_Praticiens_Formulaire extends Vue_Composant {
 
     private ?array $praticiens;
+    private ?array $regions;
 
-    public function __construct(?array $praticiens = null) {
+    public function __construct(?array $praticiens = null, ?array $regions = null) {
         $this->praticiens = $praticiens;
+        $this->regions = $regions;
     }
 
     public function donneTexte(): string {
@@ -33,7 +35,7 @@ class Vue_Praticiens_Formulaire extends Vue_Composant {
                 </head>
                 
                 <h1>' . $titre . '</h1>';
-                $html .= '<form action="index.php?case=Gerer_Praticiens&action=' . $action . '" method="post">
+        $html .= '<form action="index.php?case=Gerer_Praticiens&action=' . $action . '" method="post">
                     ' . ($this->praticiens ? '<input type="hidden" name="id_pds" value="' . htmlspecialchars($idPds) . '">' : '') . '
                     <div>
                         <label for="nom_pds">Nom :</label>
@@ -62,19 +64,48 @@ class Vue_Praticiens_Formulaire extends Vue_Composant {
                     <div>
                         <label for="ville_pds">Ville :</label>
                         <input type="text" id="ville_pds" name="ville_pds" value="' . htmlspecialchars($ville) . '" required>
-                    </div>
-        
-                    <div>
-                        <button type="submit">Enregistrer</button>
-                        <a href="index.php?case=Gerer_Praticiens&action=voirListe">Annuler</a>
-                    </div>
+                    </div>';
+
+        $html .= '<div>';
+        $html .= '<label for="id_region">Région :</label>';
+
+        if ($_SESSION["typeConnexionBack"] === "delegue") {
+            if (isset($this->regions[0]['id_region'], $this->regions[0]['libelle_region'])) {
+                $html .= '<input type="hidden" id="id_region" name="id_region" value="' . intval($this->regions[0]["id_region"]) . '">';
+                $html .= '<input type="text" value="' . htmlspecialchars($this->regions[0]["libelle_region"]) . '" readonly>';
+            } else {
+                // Gestion du cas où aucune région n'est disponible
+                $html .= '<input type="hidden" id="id_region" name="id_region" value="">';
+                $html .= '<input type="text" value="Aucune région disponible" readonly>';
+            }
+        } else {
+            // Sinon, afficher un select avec les différentes régions
+            $html .= '<select id="id_region" name="id_region" required>';
+            $html .= '<option value="" disabled selected>-- Sélectionnez une région --</option>';
+
+            foreach ($this->regions as $region) {
+                $selected = (isset($this->praticiens['id_region']) && $this->praticiens['id_region'] == $region["id_region"]) ? "selected" : "";
+                $html .= '<option value="' . intval($region["id_region"]) . '" ' . $selected . '>' . htmlspecialchars($region["libelle_region"]) . '</option>';
+            }
+
+            $html .= '</select>';
+        }
+
+        $html .= '</div>';
+
+
+        $html .= '  <div>
+                            <button type="submit" >Enregistrer</button>
+                            <a href="index.php?case=Gerer_Praticiens&action=voirListe">Annuler</a>
+                        </div>
                   </form>';
+
 
 
                 $html .=" <!-- Bouton Retour -->
                     <form method='GET' action='index.php'>
                        <input type='hidden' name='case' value='visiteur'>
-                       <input type='hidden' name='action' value='menuPrincipal'> <!-- Action pour revenir au menu -->
+                       <input type='hidden' name='action' value='menuPrincipal'>
                        <button type='submit'>Retour au menu principal</button>
                     </form>  ";
 

@@ -33,6 +33,7 @@ class Vue_Medicaments_Liste extends Vue_Composant {
                         <tr>
                             <th>Designation</th>
                             <th>Prix</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>';

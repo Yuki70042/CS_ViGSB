@@ -35,6 +35,7 @@ class Vue_Delegues_Liste extends Vue_Composant {
                             <th>Email</th>
                             <th>Âge</th>
                             <th>Adresse</th>
+                            <th>Région</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -47,6 +48,7 @@ class Vue_Delegues_Liste extends Vue_Composant {
                         <td>' . htmlspecialchars($delegue['email']) . '</td>
                         <td>' . htmlspecialchars($delegue['age']) . '</td>
                         <td>' . htmlspecialchars($delegue['adresse']) . '</td>
+                        <td>' . htmlspecialchars($delegue['region']) . '</td>
                         <td>
                             <a href="index.php?case=Gerer_Delegues&action=modifier&id_salarie=' . $delegue['id_salarie'] . '">Modifier</a> |
                             <a href="index.php?case=Gerer_Delegues&action=supprimer&id_salarie=' . $delegue['id_salarie'] . '" 

@@ -6,9 +6,11 @@ use App\Utilitaire\Vue_Composant;
 class Vue_Delegues_Formulaire extends Vue_Composant {
 
     private ?array $delegue;
+    private ?array $regions;
 
-    public function __construct(?array $delegue = null) {
+    public function __construct(?array $delegue = null, ?array $regions = null) {
         $this->delegue = $delegue;
+        $this->regions = $regions;
     }
 
     public function donneTexte(): string {
@@ -58,9 +60,9 @@ class Vue_Delegues_Formulaire extends Vue_Composant {
                 <label for="region">Région :</label>
                 <select id="region" name="region" required>';
 
-    // Récupérer les régions
-            $regions = \App\Modele\Modele_Regions::getRegions(); // Méthode à créer dans le modèle
-            foreach ($regions as $region) {
+
+            // $regions = \App\Modele\Modele_Regions::getRegions();
+            foreach ($this->regions as $region) {
                 // Vérifier si la région doit être sélectionnée
                 $selected = (isset($regionSelectionne) && $region["id_region"] == $regionSelectionne) ? "selected" : "";
 

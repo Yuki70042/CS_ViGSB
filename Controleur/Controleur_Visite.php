@@ -50,13 +50,17 @@ switch ($action) {
         $Vue->addToCorps(new Vue_Visites_Liste($visites));
         break;
 
+
     case "historique": // Menu de consultation des visites déjà validé
         $visites = Modele_Visites::getVisitesHistoriqueParSalarie($_SESSION["id_salarie"]);
         $Vue->addToCorps(new Vue_Visites_Liste($visites));
         break;
 
-
-
+    case "historiqueVisitesParRegion": // Menu de consultation des visites validé de la région
+        // Pour le Délégué
+        $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
+        $visites = Modele_Visites::getVisitesParRegionValide($_SESSION["idRegion"]);
+        $Vue->addToCorps(new Vue_Visites_Liste($visites));
 
     case "editer":
         if (isset($_GET['date'], $_GET['id_medicament'], $_GET['id_pds'])) {

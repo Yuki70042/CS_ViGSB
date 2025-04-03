@@ -22,7 +22,6 @@ $Vue = new Vue();
 $Vue->setEntete(new Vue_Structure_Entete());
 
 
-
 // Identification du type de connexion
 if (isset($_SESSION["typeConnexionBack"])) {
     $typeConnexion = $_SESSION["typeConnexionBack"];
@@ -44,8 +43,8 @@ else
     $action = "Action_Par_Defaut";
 
 // Pour suivis des redirections
-//echo("case: ".$case);
-//echo("\n- action: ".$action);
+echo("case: ".$case);
+echo("\n- action: ".$action);
 
 
 // Redirection vers le controleur concerné
@@ -146,11 +145,6 @@ switch ($typeConnexion) {
     default :
         $Vue->addToCorps(new \App\Vue\Vue_AfficherMessage("Type de connexion non reconnu"));
     }
-
-if ($action === 'autocomplete') {
-    include "Controleur/Controleur_Autocomplete.php";
-    exit; // Assure-toi d'arrêter l'exécution après avoir envoyé la réponse
-}
 
 $Vue->afficher();
 

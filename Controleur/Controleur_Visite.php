@@ -22,9 +22,9 @@ switch ($action) {
         // Si la personne est délégué
         if ($_SESSION["typeConnexionBack"] === "delegue") {
             // Récupérer les régions du délégué connecté
-            $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
+            $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"])['id_region'];
 
-            // Récupérer les visites pour toutes les régions du délégué
+            // Récupérer les visites pour la région du délégué
             $visitesSansCR = Modele_Visites::getVisitesEnAttenteCompteRendu($idRegion);
             $visitesEnAttenteValidation = Modele_Visites::getVisitesEnAttenteValidation($idRegion);
             $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visitesSansCR, $visitesEnAttenteValidation));
@@ -33,7 +33,7 @@ switch ($action) {
         // Si la personne est responsable
         if ($_SESSION["typeConnexionBack"] === "responsable") {
             // Récupérer le secteur du responsable connecté
-            $idSecteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
+            $idSecteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]['id_region']);
 
             // Récupérer les visites des régions supervisé par le responsable
             $regions = Modele_Visites::getRegionsDuSecteur($idSecteur);
@@ -58,8 +58,8 @@ switch ($action) {
 
     case "historiqueVisitesParRegion": // Menu de consultation des visites validé de la région
         // Pour le Délégué
-        $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
-        $visites = Modele_Visites::getVisitesParRegionValide($_SESSION["idRegion"]);
+        $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"])['id_region'];
+        $visites = Modele_Visites::getVisitesParRegionValide($idRegion);
         $Vue->addToCorps(new Vue_Visites_Liste($visites));
 
     case "editer":
@@ -97,7 +97,7 @@ switch ($action) {
 
         // Renvoie vers le formulaire de création de visite
     case "ajouterVisite":
-        $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"]);
+        $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"])['id_region'];
         $visiteurs = \App\Modele\Modele_Visiteurs::getVisiteursSousSupervision($_SESSION["id_salarie"]);
         $praticiens = Modele_Praticiens::getPraticienDeLaRegion($idRegion);
         $medicaments = \App\Modele\Modele_Medicaments::getTousMedicaments();
@@ -137,7 +137,6 @@ switch ($action) {
 
     // Permet au délégué de valider un compte-rendu
     case "valider":
-        echo("demande validation");
         // Vérification si les paramètres sont bien présents
         $date_du_jour = $_REQUEST['date_du_jour'] ?? null;
         $id_medicament = $_REQUEST['id_medicament'] ?? null;
@@ -160,7 +159,7 @@ switch ($action) {
             }
 
             // Redirection vers la liste des visites
-            header("Location: index.php?case=Gerer_Visites&action=voirVisites");
+            header("Location: index.php?case=Gerer_Visites&action=voirVisitesRegion");
             exit;
 
         } else {
@@ -168,7 +167,27 @@ switch ($action) {
         }
         break;
 
+    case "supprimerVisite":
+        echo 'suppression demandé';
+        // Vérification si les paramètres sont bien présents
+        $date_du_jour = $_REQUEST['date_du_jour'] ?? null;
+        $id_medicament = $_REQUEST['id_medicament'] ?? null;
+        $id_pds = $_REQUEST['id_pds'] ?? null;
+        $id_salarie = $_REQUEST['id_salarie'] ?? null;
 
+        var_dump($date_du_jour, $id_medicament, $id_pds, $id_salarie);
+
+        if ($date_du_jour && $id_medicament && $id_pds && $id_salarie) {
+        Modele_Visites::supprimerVisite($date_du_jour, $id_medicament, $id_pds, $id_salarie);
+        // Redirection vers la liste des visites
+        header("Location: index.php?case=Gerer_Visites&action=voirVisitesRegion");
+        exit;
+        }
+        else {
+            error_log("Paramètres manquants.");
+            exit("Erreur : Paramètres manquants.");
+        }
+        break;
 
     default:
         $Vue->addToCorps(new \App\Vue\Vue_AfficherMessage("Action non reconnue dans le Controleur visite"));

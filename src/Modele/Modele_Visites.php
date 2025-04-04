@@ -205,7 +205,6 @@ class Modele_Visites
               AND id_pds = :idPds
               AND id_salarie = :idSalarie
         ";
-
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':dateDuJour', $dateDuJour, \PDO::PARAM_STR);
         $stmt->bindParam(':idMedicament', $idMedicament, \PDO::PARAM_INT);

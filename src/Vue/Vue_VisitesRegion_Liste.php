@@ -115,17 +115,17 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
                     <strong>Commentaire :</strong> " . htmlspecialchars($visite['commentaire'] ?? "Aucun commentaire") . "<br>
                 </div>
                 <div class='info-droite'>
-                    <label>
-                        <!--<input type='checkbox' disabled $checkboxStatus>
-                        <span>" . ($compteRenduExistant ? "Compte-rendu réalisé" : "Compte-rendu non réalisé") . "</span> -->
-                    </label>
-                    <br>
-                    <label>
-                        <!--<input type='checkbox' disabled $checkboxStatus>
-                        <span>" . ($validationEffectuee ? "Compte-rendu validé" : "Compte-rendu non validé") . "</span> -->
-                    </label>
-                    <br>
+                <form class='btn-supprimer' method='GET' action='index.php'>
+                    <input type='hidden' name='action' value='supprimerVisite'>
+                    <input type='hidden' name='case' value='Gerer_Visites'>
+                    <input type='hidden' name='date_du_jour' value='" . htmlspecialchars($visite['date_du_jour']) . "'>
+                    <input type='hidden' name='id_medicament' value='" . htmlspecialchars($visite['id_medicament']) . "'>
+                    <input type='hidden' name='id_pds' value='" . htmlspecialchars($visite['id_pds']) . "'>
+                    <input type='hidden' name='id_salarie' value='" . htmlspecialchars($visite['id_salarie']) . "'>
+                    <button type='submit'>Supprimer</button>
+                </form>
                     <a href='$editLink' class='$buttonClass' $buttonDisabled>$buttonText</a>
+                    
                 </div>
             </div>
         ";

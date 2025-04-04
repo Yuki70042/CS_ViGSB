@@ -14,28 +14,30 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
 
     public function donneTexte(): string
     {
-        $html = "
-        <link rel='stylesheet' href='../../public/css/Visites_Liste.css'> 
-        <h1>Visites de la Région</h1>";
+        $titre = ($_SESSION["typeConnexionBack"] === "responsable") ? "Visites du Secteur" : "Visites de la Région";
 
-        // Vérification du type de connexion
-        if ($_SESSION["typeConnexionBack"] !== "responsable") {
-            $html .= "
+        $html = "
+            <link rel='stylesheet' href='../../public/css/Visites_Liste.css'> 
+            <h1>$titre</h1>";
+
+        $html .= "
+            <!-- Conteneur des boutons -->
+            <div class='button-container'>
+            
+                <!-- Bouton Retour -->
+                <form class='button-retour' method='GET' action='index.php'>
+                    <input type='hidden' name='action' value=''>
+                    <input type='hidden' name='case' value='menuPrincipal'>
+                    <button type='submit'>Retour au menu principal</button>
+                </form>
+            
                 <!-- Bouton Création d'une Visite -->
-                <form method='GET' action='index.php'>
+                <form class='button-creer' method='GET' action='index.php'>
                     <input type='hidden' name='action' value='ajouterVisite'>
                     <input type='hidden' name='case' value='Gerer_Visites'>
                     <button type='submit'>Organiser une Visite</button>
-                </form>";
-        }
-
-        $html .= "
-            <!-- Bouton Retour -->
-            <form method='GET' action='index.php'>
-                <input type='hidden' name='action' value=''>
-                <input type='hidden' name='case' value='menuPrincipal'>
-                <button type='submit'>Retour au menu principal</button>
-            </form>";
+                </form>
+            </div>";
 
         // Conteneur des colonnes pour les visites
         $html .= "<div class='visites-container'>";
@@ -62,10 +64,13 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
 
         $html .= "</div>"; // fin du conteneur principal
 
+        // Définition de l'action pour l'historique des visites en fonction du type de connexion
+        $actionHistorique = ($_SESSION["typeConnexionBack"] === "responsable") ? "historiqueVisitesParSecteur" : "historiqueVisitesParRegion";
+
         $html .= "
             <!-- Bouton vers l'historique des visites validés -->
-            <form method='GET' action='index.php'>
-                <input type='hidden' name='action' value='historiqueVisitesParRegion'>
+            <form class='historiqueVisites' method='GET' action='index.php'>
+                <input type='hidden' name='action' value='$actionHistorique'>
                 <input type='hidden' name='case' value='Gerer_Visites'>
                 <button type='submit'>Historique des précédentes visites</button>
             </form>";
@@ -79,7 +84,6 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
         // Vérifie si un compte-rendu existe
         $compteRenduExistant = !empty($visite['commentaire']);
         $validationEffectuee = !empty($visite['validation']) && $visite['validation'] == 1;
-        $checkboxStatus = $validationEffectuee ? "checked" : "";
         $buttonAction = null;
 
         if ($validationEffectuee) {

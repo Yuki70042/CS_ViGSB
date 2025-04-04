@@ -33,12 +33,23 @@ switch ($action) {
         // Si la personne est responsable
         if ($_SESSION["typeConnexionBack"] === "responsable") {
             // Récupérer le secteur du responsable connecté
-            $idSecteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]['id_region']);
+            $idSecteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
 
-            // Récupérer les visites des régions supervisé par le responsable
-            $regions = Modele_Visites::getRegionsDuSecteur($idSecteur);
-            $visites = Modele_Visites::getVisitesParRegion($regions);
-            $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visites));
+            // Récupérer les régions supervisées par le responsable
+            $regions = \App\Modele\Modele_Regions::getRegionsDuSecteur($idSecteur);
+
+            // Initialiser les tableaux de résultats
+            $visitesSansCR = [];
+            $visitesEnAttenteValidation = [];
+
+            // Pour chaque région, récupérer les visites et les fusionner
+            foreach ($regions as $region) {
+                $visitesSansCR = array_merge($visitesSansCR, Modele_Visites::getVisitesEnAttenteCompteRendu($region['id_region']));
+                $visitesEnAttenteValidation = array_merge($visitesEnAttenteValidation, Modele_Visites::getVisitesEnAttenteValidation($region['id_region']));
+            }
+
+            // Envoyer les résultats à la vue
+            $Vue->addToCorps(new \App\Vue\Vue_VisitesRegion_Liste($visitesSansCR, $visitesEnAttenteValidation));
         }
         break;
 
@@ -61,6 +72,18 @@ switch ($action) {
         $idRegion = Modele_Delegues::getRegionByDelegue($_SESSION["id_salarie"])['id_region'];
         $visites = Modele_Visites::getVisitesParRegionValide($idRegion);
         $Vue->addToCorps(new Vue_Visites_Liste($visites));
+        break;
+
+    case "historiqueVisitesParSecteur":
+        $idSecteur = \App\Modele\Modele_Responsable::getSecteurByResponsable($_SESSION["id_salarie"]);
+        $regions = \App\Modele\Modele_Regions::getRegionsDuSecteur($idSecteur);
+        $visites = [];
+        foreach ($regions as $region) {
+            $visites = array_merge($visites, Modele_Visites::getVisitesParRegionValide($region['id_region']));
+        }
+        $Vue->addToCorps(new Vue_Visites_Liste($visites));
+        break;
+
 
     case "editer":
         if (isset($_GET['date'], $_GET['id_medicament'], $_GET['id_pds'])) {

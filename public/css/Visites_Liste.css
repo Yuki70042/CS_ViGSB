@@ -37,21 +37,7 @@ li {
     margin-bottom: 10px;
 }
 
-.info-gauche {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
 
-.info-droite {
-    flex: 1;
-    text-align: right;
-}
-
-/* Encadré du compte-rendu */
-.compte-rendu-box {
-
-}
 
 /* Style du titre du compte-rendu */
 .compte-rendu-titre {
@@ -83,28 +69,19 @@ label {
     gap: 10px;
 }
 
-input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    border-radius: 5px;
-    cursor: not-allowed;
-    border: 2px solid #CCCCCC;
-}
 
-input[type="checkbox"]:checked {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
-}
-
-/* Conteneur du compte-rendu */
 .compte-rendu {
     flex: 1;
-    background: #FFFFFF;
-    border-left: 3px solid #4A90E2;
-    padding: 10px;
+    background: #eaf0f9;
+    padding: 15px;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 40%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    text-align: left;
+    font-size: 14px;
+    max-width: 45%;
+    margin-left: 20px; /* Ajout de marge pour séparer du texte principal */
 }
 
 /* Boutons */
@@ -119,35 +96,110 @@ a {
     margin-top: 10px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
-/* Bouton rédiger */
-.btn-rediger {
-    background-color: #FF5733;
-    color: white;
-    box-shadow: 0px 4px 6px rgba(255, 87, 51, 0.3);
-}
-
-.btn-rediger:hover {
-    background-color: #E04E2E;
-    transform: translateY(-2px);
-}
-
-/* Bouton modifier */
 .btn-modifier {
-    background-color: #4CAF50;
+    background-color: #28a745; /* Vert */
     color: white;
-    box-shadow: 0px 4px 6px rgba(76, 175, 80, 0.3);
+    border: 2px solid #28a745;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .btn-modifier:hover {
-    background-color: #449D46;
-    transform: translateY(-2px);
+    background-color: #218838; /* Vert foncé au survol */
+    border-color: #218838;
 }
 
-/* Bouton retour */
-button {
-    display: block;
-    margin: 30px auto 0;
+/* Style pour le bouton de rédaction (Rouge) */
+.btn-rediger {
+    background-color: #dc3545; /* Rouge */
+    color: white;
+    border: 2px solid #dc3545;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-rediger:hover {
+    background-color: #c82333; /* Rouge foncé au survol */
+    border-color: #c82333;
+}
+
+/* Style pour le bouton validé (Bleu) */
+.btn-validee {
+    background-color: #007bff; /* Bleu */
+    color: white;
+    border: 2px solid #007bff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: not-allowed;
+}
+
+.btn-validee:disabled {
+    background-color: #007bff;
+    color: white;
+    cursor: not-allowed;
+}
+
+.btn-validee:hover {
+    background-color: #007bff; /* Pas de changement de couleur car il est désactivé */
+    border-color: #007bff;
+}
+
+/* Conteneur des boutons côte-à-côte et centré */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 3vh;
+    margin-top: 30px;
+}
+
+/* Style des boutons */
+.button-creer button, .button-retour button {
+    flex: 1;
+    min-width: 200px;
+    background-color: #3A81E6;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(58, 129, 230, 0.3);
+}
+
+.button-creer button {
+    margin-right: 3vh;
+}
+
+.button-retour button {
+    margin-right: 3vh;
+}
+
+
+
+.button-creer button:hover, .button-retour button:hover {
+    background-color: #326DBF;
+    transform: translateY(-2px);
+}
+.button-retourVisiteur {
+    display: flex;  /* Utiliser flexbox pour le centrage */
+    justify-content: center;  /* Centrer le bouton horizontalement */
+    width: 100%;  /* S'assurer que le formulaire prend toute la largeur disponible */
+}
+
+/* Style du bouton */
+.button-retourVisiteur button {
     background-color: #3A81E6;
     color: white;
     border: none;
@@ -158,11 +210,49 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0px 4px 6px rgba(58, 129, 230, 0.3);
+    outline: none;  /* Retirer le contour du bouton */
 }
 
-button:hover {
-    background-color: #326DBF;
-    transform: translateY(-2px);
+/* Effet au survol */
+.button-retourVisiteur button:hover {
+    background-color: #285ab1;
+}
+
+/* Légère réduction de taille lors du clic */
+.button-retourVisiteur button:active {
+    transform: scale(0.98);
+}
+
+
+.historiqueVisites button {
+    background-color: #736dab;
+    color: white;
+    border: none;
+    padding: 12px 64px;
+    border-radius: 8px;
+    font-size: 2vh;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(58, 129, 230, 0.3);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-supprimer button {
+    color: #E74C3C;
+    border-color:#E74C3C;
+    padding: 5px 10px;
+    margin-top: 1vh;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-supprimer button:hover {
+    background-color:#e5816d ;
 }
 
 /* Bouton désactivé */
@@ -178,26 +268,6 @@ a[disabled]:hover {
     transform: none;
 }
 
-/* Bouton valider */
-.btn-validee {
-    background-color: #28A745;
-    color: white;
-    box-shadow: 0px 4px 6px rgba(40, 167, 69, 0.3);
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.btn-validee:hover {
-    transform: none;
-    background-color: #28A745;
-}
-
-.btn-valide {
-    background-color: gray;
-    color: white;
-    cursor: not-allowed;
-    pointer-events: none;
-}
 
 /* Conteneur principal */
 .visites-container {
@@ -207,13 +277,12 @@ a[disabled]:hover {
     margin: 5vh 10vh 5vh 10vh;
 }
 
-.visites-container h2{
+.visites-container h2 {
     display: flex;
     justify-content: center;
-    background-color: #d5c2e5 ;
+    background-color: #d5c2e5;
     border-radius: 10px;
     padding: 1vh;
-
 }
 
 /* Colonne de gauche */
@@ -238,14 +307,37 @@ a[disabled]:hover {
 .visite {
     background: #f9f9f9;
     margin-bottom: 15px;
-    padding: 15px;
+    padding: 20px; /* Plus d'espace autour des informations */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Plus d'espacement entre les sections */
+}
+
+.visite h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.info-gauche {
+    flex: 1;
+    padding-right: 20px;
 }
 
 /* Conteneur d'information */
-.info-gauche {
+.info-gauche strong {
+    color: #4A4A4A;
+    font-weight: bold;
+}
+
+.info-droite {
     flex: 1;
+    text-align: right;
+    padding-left: 20px; /* Ajout de padding à gauche */
 }
 
 /* Conteneur d'actions */

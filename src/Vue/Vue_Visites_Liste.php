@@ -22,8 +22,19 @@ class Vue_Visites_Liste extends Vue_Composant
             <link rel='stylesheet' href='../../public/css/Visites_Liste.css'> <!-- Lien vers le CSS -->
         </head>
     <ul>";
+
         // Changer le titre en fonction de l'action
-        $titre = ($_GET['action'] === 'historique') || ($_GET['action'] === 'historiqueVisitesParRegion')  ? "Historique" : "Mes Visites";
+        if ($_GET['action'] === 'historique') {
+            $titre = "Mes Visites";
+        } elseif ($_GET['action'] === 'historiqueVisitesParRegion') {
+            $titre = "Historique de la Région";
+        } elseif ($_GET['action'] === 'historiqueVisitesParSecteur') {
+            $titre = "Historique du Secteur";
+        } else {
+            $titre = "Mes Visites"; // Pour le visiteur
+        }
+
+        // Ajout du titre dans le HTML
         $html .= "<h1>$titre</h1><ul>";
 
 
@@ -75,11 +86,9 @@ class Vue_Visites_Liste extends Vue_Composant
                 </li>";
         }
 
-        $html .= "</ul>";
-
-        $html .= "
+        $html .= "</ul>
         <!-- Bouton Retour -->
-        <form method='GET' action='index.php'>
+        <form class='button-retourVisiteur' method='GET' action='index.php'>
             <input type='hidden' name='action' value='visiteur'>
             <input type='hidden' name='case' value='menuPrincipal'>
             <button type='submit'>Retour au menu principal</button>
@@ -88,7 +97,5 @@ class Vue_Visites_Liste extends Vue_Composant
 
         return $html;
     }
-
-
 }
 

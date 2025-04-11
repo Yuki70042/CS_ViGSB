@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2025 at 03:18 PM
+-- Generation Time: Apr 11, 2025 at 01:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,7 +37,15 @@ CREATE TABLE `date_visite` (
 --
 
 INSERT INTO `date_visite` (`date_du_jour`, `heure_du_rdv`) VALUES
-('2025-04-11', '17:00:00');
+('2025-04-04', '10:20:00'),
+('2025-04-04', '13:17:00'),
+('2025-04-04', '14:20:00'),
+('2025-04-05', '10:55:00'),
+('2025-04-11', '17:00:00'),
+('2025-04-19', '20:13:00'),
+('2025-04-22', '15:36:00'),
+('2025-04-24', '17:12:00'),
+('2025-04-26', '19:37:00');
 
 -- --------------------------------------------------------
 
@@ -270,8 +278,8 @@ CREATE TABLE `responsable_secteur` (
 --
 
 INSERT INTO `responsable_secteur` (`id_salarie`, `id_secteur`) VALUES
-(6, 25),
-(38, 34);
+(38, 34),
+(48, 25);
 
 -- --------------------------------------------------------
 
@@ -298,7 +306,6 @@ INSERT INTO `salarie` (`id_salarie`, `nom`, `prenom`, `email`, `mot_de_passe`, `
 (1, 'administrateur', 'admin', 'root@vigsb.fr', 'root', 100, '3 rue du root Rootwiller', 'admin'),
 (2, 'visiteur', 'visiteur', 'visiteur@vigsb.fr', 'visiteur', 20, '3 rue du visiteur Normalviller 00000', 'visiteur'),
 (4, 'delegue_regional', 'delegue_regional', 'delegueregional@vigsb.fr', 'region', 49, '57 rue du Delegue Regional', 'delegue'),
-(6, 'secteur', 'secteur', 'secteur@vigsb.fr', 'secteur', 34, '6 rue du secteur du Bois', 'responsable'),
 (29, 'Durand', 'Paul', 'pauldurand@vigsb.fr', 'paul123', 25, '10 rue des Fleurs, Paris', 'visiteur'),
 (30, 'Lemoine', 'Sophie', 'sophielemoine@vigsb.fr', 'sophie456', 30, '15 avenue de la République, Lyon', 'visiteur'),
 (31, 'Martin', 'Lucas', 'lucasmartin@vigsb.fr', 'lucas789', 22, '5 place de la Liberté, Marseille', 'visiteur'),
@@ -308,7 +315,14 @@ INSERT INTO `salarie` (`id_salarie`, `nom`, `prenom`, `email`, `mot_de_passe`, `
 (35, 'Renaud', 'Maxime', 'maximerenaud@vigsb.fr', 'maxime123', 40, '25 avenue des Champs, Strasbourg', 'delegue'),
 (36, 'Simon', 'Claire', 'clairesimon@vigsb.fr', 'claire456', 45, '30 rue de la Paix, Lille', 'delegue'),
 (37, 'Girard', 'Antoine', 'antoinegirard@vigsb.fr', 'antoine789', 38, '35 boulevard Haussmann, Nice', 'delegue'),
-(38, 'Lefevre', 'Julie', 'julielefevre@vigsb.fr', 'julie321', 42, '40 rue des Lilas, Montpellier', 'responsable');
+(38, 'Lefevre', 'Julie', 'julielefevre@vigsb.fr', 'julie321', 42, '40 rue des Lilas, Montpellier', 'responsable'),
+(41, 'BLANCA', 'LIZ', 'lizblanca.pro@gmail.com', '123', 19, '24 RUE DE MULHOUSE', 'delegue'),
+(42, 'BLANCA', 'LIZ', 'lizblanca.pro@gmail.com', '123', 19, '24 RUE DE MULHOUSE', 'delegue'),
+(43, 'BLANCA', 'LIZ', 'lizblanca.pro@gmail.com', '123', 19, '24 RUE DE MULHOUSE', 'delegue'),
+(44, 'BLANCA', 'LIZ', 'jean.dupont@gsb.fr', '12345', 19, '24 RUE DE MULHOUSE', 'delegue'),
+(45, 'medtest', 'medtest', 'test@vigsb.fr', '123', 19, '3 rue du test', 'delegue'),
+(46, 'medtest', 'medtest', 'test@vigsb.fr', '12345', 19, '3 rue du test', 'delegue'),
+(48, 'responsablesecteur', 'responsablesecteur', 'secteur@vigsb.fr', 'secteur', 99, '6 responsablesecteur Belfort', 'responsable');
 
 -- --------------------------------------------------------
 
@@ -351,6 +365,7 @@ CREATE TABLE `visiter` (
   `id_medicament` int(11) NOT NULL,
   `id_pds` int(11) NOT NULL,
   `id_salarie` int(11) NOT NULL,
+  `heure_du_rdv` time DEFAULT NULL,
   `commentaire` text DEFAULT NULL,
   `validation` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -359,8 +374,13 @@ CREATE TABLE `visiter` (
 -- Dumping data for table `visiter`
 --
 
-INSERT INTO `visiter` (`date_du_jour`, `id_medicament`, `id_pds`, `id_salarie`, `commentaire`, `validation`) VALUES
-('2025-04-11', 16, 24, 2, NULL, 0);
+INSERT INTO `visiter` (`date_du_jour`, `id_medicament`, `id_pds`, `id_salarie`, `heure_du_rdv`, `commentaire`, `validation`) VALUES
+('2025-04-05', 11, 24, 2, NULL, 'à valider', 0),
+('2025-04-11', 16, 24, 2, NULL, 'Viste réalisé', 1),
+('2025-04-19', 8, 25, 2, NULL, NULL, 0),
+('2025-04-22', 10, 24, 2, NULL, 'test2', 1),
+('2025-04-24', 19, 25, 2, NULL, 'test1', 0),
+('2025-04-26', 10, 24, 29, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -476,7 +496,7 @@ ALTER TABLE `medicaments`
 -- AUTO_INCREMENT for table `professionnels_de_sante`
 --
 ALTER TABLE `professionnels_de_sante`
-  MODIFY `id_pds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_pds` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `region`
@@ -488,7 +508,7 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT for table `salarie`
 --
 ALTER TABLE `salarie`
-  MODIFY `id_salarie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_salarie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `secteur`

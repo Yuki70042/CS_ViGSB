@@ -43,8 +43,8 @@ else
     $action = "Action_Par_Defaut";
 
 // Pour suivis des redirections
-echo("case: ".$case);
-echo("\n- action: ".$action);
+//echo("case: ".$case);
+//echo("\n- action: ".$action);
 
 
 // Redirection vers le controleur concerné

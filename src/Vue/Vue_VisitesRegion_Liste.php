@@ -29,15 +29,20 @@ class Vue_VisitesRegion_Liste extends Vue_Composant
                     <input type='hidden' name='action' value=''>
                     <input type='hidden' name='case' value='menuPrincipal'>
                     <button type='submit'>Retour au menu principal</button>
-                </form>
-            
-                <!-- Bouton Création d'une Visite -->
+                </form>";
+        if ($_SESSION["typeConnexionBack"] === "delegue") {
+            $html .="    <!-- Bouton Création d'une Visite -->
                 <form class='button-creer' method='GET' action='index.php'>
                     <input type='hidden' name='action' value='ajouterVisite'>
                     <input type='hidden' name='case' value='Gerer_Visites'>
                     <button type='submit'>Organiser une Visite</button>
                 </form>
-            </div>";
+            </div>";}
+        else{
+            $html .="    <!-- Bouton Création d'une Visite -->
+
+            </div>";}
+
 
         // Conteneur des colonnes pour les visites
         $html .= "<div class='visites-container'>";

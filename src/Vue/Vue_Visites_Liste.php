@@ -86,15 +86,25 @@ class Vue_Visites_Liste extends Vue_Composant
                 </li>";
         }
 
-        $html .= "</ul>
-        <!-- Bouton Retour -->
-        <form class='button-retourVisiteur' method='GET' action='index.php'>
-            <input type='hidden' name='action' value='visiteur'>
-            <input type='hidden' name='case' value='menuPrincipal'>
-            <button type='submit'>Retour au menu principal</button>
-        </form>
-    ";
 
+        if ($_GET['action'] === 'historiqueVisitesParRegion'|| $_GET['action'] === 'historiqueVisitesParSecteur' ){
+            $html .= "</ul>
+            <!-- Bouton Retour -->
+            <form class='button-retourVisiteur' method='GET' action='index.php'>
+                <input type='hidden' name='action' value='voirVisitesRegion'>
+                <input type='hidden' name='case' value='Gerer_Visites'>
+                <button type='submit'>Retour au menu principal</button>
+            </form>
+        ";}
+        else{
+            $html .= "</ul>
+            <!-- Bouton Retour -->
+            <form class='button-retourVisiteur' method='GET' action='index.php'>
+                <input type='hidden' name='action' value='visiteur'>
+                <input type='hidden' name='case' value='menuPrincipal'>
+                <button type='submit'>Retour au menu principal</button>
+            </form>
+        ";}
         return $html;
     }
 }

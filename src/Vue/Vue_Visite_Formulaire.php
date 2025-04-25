@@ -89,6 +89,7 @@ class Vue_Visite_Formulaire extends Vue_Composant {
             <input type="time" id="heure" name="heure" required>
     
             <!-- Bouton de validation -->
+            <input type="hidden" name="case" value="Gerer_Visites">
             <button type="submit" name="action" value="traiterAjout">Créer</button>
         </form>
     </div>';
